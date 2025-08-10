@@ -22,7 +22,6 @@
     <style>
         html {
             scroll-behavior: smooth;
-            scroll-snap-type: y mandatory;
         }
         
         body {
@@ -32,15 +31,22 @@
             background-color: #f3f4f6;
         }
         
-        section {
-            scroll-snap-align: start;
+        
+
+        /* Subtle bounce animation for the scroll indicator */
+        @keyframes bounceY {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(6px); }
+        }
+        .scroll-indicator {
+            animation: bounceY 1.2s infinite ease-in-out;
         }
     </style>
 </head>
 <body>
 
     <!-- Hero Section -->
-    <section class="min-h-screen flex items-center justify-center p-4 md:p-8 bg-gradient-to-r from-purple-50 to-indigo-100">
+    <section class="min-h-screen flex items-center justify-center p-4 md:p-8 bg-gradient-to-r from-purple-50 to-indigo-100 relative">
 
         <!-- Main container for the two-column layout -->
         <div class="container mx-auto w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-start">
@@ -114,6 +120,13 @@
             </div>
             
         </div>
+        <!-- Scroll-down indicator -->
+        <a href="#skills" aria-label="Scroll to skills" class="absolute bottom-6 left-1/2 -translate-x-1/2 text-indigo-600 hover:text-indigo-700 flex flex-col items-center group">
+            <span class="text-sm font-semibold tracking-wide mb-1 opacity-80 group-hover:opacity-100">Scroll</span>
+            <svg class="w-6 h-6 scroll-indicator" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+        </a>
     </section>
 
 
@@ -189,7 +202,7 @@
             <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition-shadow duration-300">
                 <div class="flex items-center mb-4">
                     <div class="w-3 h-3 bg-indigo-500 rounded-full mr-3"></div>
-                    <h3 class="text-xl font-bold text-gray-800">Database Management</h3>
+                    <h3 class="text-xl font-bold text-gray-800">Artificial Intelligence</h3>
                 </div>
                 <ul class="text-gray-600 space-y-2">
                     <li>• Prompt Engineering</li>
@@ -412,8 +425,15 @@
                     <li class="flex items-start">
                         <span class="text-purple-500 mr-2 font-bold">•</span>
                         <div>
-                            <div class="font-semibold">Rank 1 Tank Player</div>
-                            <div class="text-sm text-gray-500"><a href="https://overwatch.blizzard.com/" class="hover:underline hover:text-blue-500" target="_blank" rel="noopener noreferrer">Overwatch</a> (Blizzard Entertainment, May 2022)</div>                        </div>
+                            <div class="font-semibold flex items-center">
+                                Rank 1 Tank Player
+                                <button id="openRank1ModalBtn" aria-haspopup="dialog" aria-controls="rank1Modal" title="View proof photo" class="ml-2 text-purple-600 hover:text-purple-700 p-1 rounded hover:bg-purple-50">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17L17 7M9 7h8v8" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="text-sm text-gray-500"><a href="https://overwatch.blizzard.com/" class="font-semibold underline hover:text-blue-500" target="_blank" rel="noopener noreferrer">Overwatch</a> (Blizzard Entertainment, May 2022)</div>                        </div>
                     </li>
                     <li class="flex items-start">
                         <span class="text-purple-500 mr-2 font-bold">•</span>
@@ -481,6 +501,59 @@
             </a>
         </div>
     </section>
+
+    <!-- Rank 1 Tank Player Modal -->
+    <div id="rank1Modal" role="dialog" aria-modal="true" aria-labelledby="rank1ModalTitle" class="fixed inset-0 z-50 hidden items-center justify-center px-4 bg-black/60 backdrop-blur-sm">
+        <div class="relative bg-white rounded-xl shadow-2xl max-w-5xl md:max-w-6xl w-full overflow-hidden">
+            <button id="closeRank1ModalBtn" aria-label="Close" class="absolute top-3 right-3 text-gray-600 hover:text-gray-800 bg-white/80 hover:bg-white rounded-full p-2 shadow">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <div class="bg-black">
+                <img id="rank1ModalImage" src="./rank1_tank_proof.jpg" alt="Rank 1 Tank Player proof" class="w-full h-auto max-h-[90vh] object-contain" />
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const openBtn = document.getElementById('openRank1ModalBtn');
+            const modal = document.getElementById('rank1Modal');
+            const closeBtn = document.getElementById('closeRank1ModalBtn');
+
+            function openModal() {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeModal() {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.style.overflow = '';
+            }
+
+            if (openBtn) openBtn.addEventListener('click', openModal);
+            if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+            // Close when clicking the overlay outside the content
+            if (modal) {
+                modal.addEventListener('click', function (e) {
+                    if (e.target === modal) {
+                        closeModal();
+                    }
+                });
+            }
+
+            // Close on Escape key
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
+                    closeModal();
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>
