@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .font-serif {
+            font-family: "New York", Georgia, serif;
+            font-style: normal;
+            font-weight: 400;
+            color: rgb(17, 25, 39);
+            font-size: 16px;
+            line-height: 24px;
+            font-feature-settings: "liga", "calt";
+            font-variation-settings: normal;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .name-heading {
+            font-family: InterVariable, sans-serif;
+            font-style: normal;
+            font-weight: 600;
+            color: rgb(17, 24, 39);
+            font-size: 24px;
+            line-height: 32px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+    </style>
+</head>
+<body class="bg-custom min-h-screen">
+    <!-- Red header line -->
+    <div class="w-full h-1 bg-red-600"></div>
+    
+    <!-- Navigation -->
+    <nav class="flex justify-end pt-8 pr-8 space-x-8">
+        <a href="#" class="text-gray-500 text-base hover:text-gray-700">about</a>
+        <a href="#" class="text-gray-500 text-base hover:text-gray-700">work</a>
+        <a href="#" class="text-gray-500 text-base hover:text-gray-700">experiments</a>
+    </nav>
+    
+    <!-- Main content -->
+    <main class="max-w-prose mx-auto pt-16 px-8">
+        <!-- Name and title -->
+        <div class="mb-8">
+            <h1 class="name-heading mb-2">Giovanni Vitale</h1>
+            <p class="text-xl italic text-amber-700">TBD</p>
+        </div>
+        
+        <!-- About text -->
+        <div>
+            <p class="font-serif mb-6">A junior at Stony Brook University majoring in Computer Science (Honors) and Applied Mathematics & Statistics.<br>
+            ↳ CS Honors Program with a Specialization in Artificial Intelligence & Data Science</p>
+            
+            
+        </div>
+    </main>
+</body>
+</html>
