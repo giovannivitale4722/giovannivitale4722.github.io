@@ -1,0 +1,33 @@
+/* Custom styles for portfolio website */
+
+.font-serif {
+    font-family: "New York", Georgia, serif;
+    font-style: normal;
+    font-weight: 400;
+    color: rgb(17, 25, 39);
+    font-size: 16px;
+    line-height: 24px;
+    font-feature-settings: "liga", "calt";
+    font-variation-settings: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.name-heading {
+    font-family: InterVariable, sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    color: rgb(17, 24, 39);
+    font-size: 24px;
+    line-height: 32px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.max-w-custom {
+    max-width: 43rem; /* Between 3xl (48rem) and 4xl (56rem) */
+}
+
+.bg-custom {
+    background-color: #FFFFFF;
+}
