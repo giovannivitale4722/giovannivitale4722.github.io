@@ -14,293 +14,509 @@
     <title>Giovanni Vitale</title>
     <style>
         :root {
-            --text-main: #111;
-            --text-muted: #555;
-            --bg: #fff;
-            --link: #111;
+            --bg: #ffffff;
+            --text: #151515;
+            --muted: #5f6368;
+            --faint: #e9eaee;
+            --card: #ffffff;
+            --pill: #3f4654;
+            --accent: #2563eb;
         }
-        
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg);
-            color: var(--text-main);
-            line-height: 1.5;
             margin: 0;
-            padding: 4rem 2rem;
-            font-size: 14px;
-        }
-
-        .container {
-            max-width: 650px;
-            margin: 0 auto;
-        }
-
-        h1 {
-            font-size: 24px;
-            font-weight: 600;
-            margin: 0 0 8px 0;
-        }
-
-        .subtitle {
-            color: var(--text-muted);
-            margin: 0 0 16px 0;
-        }
-
-        .bio {
-            color: var(--text-muted);
-            margin: 0 0 32px 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 12px;
+            line-height: 1.45;
+            -webkit-font-smoothing: antialiased;
         }
 
         a {
-            color: var(--link);
+            color: inherit;
             text-decoration: none;
-            border-bottom: 1px solid var(--link);
         }
 
         a:hover {
-            color: var(--text-muted);
-            border-bottom-color: var(--text-muted);
+            color: var(--accent);
+        }
+
+        .page {
+            width: min(calc(100% - 32px), 640px);
+            margin: 0 auto;
+            padding: 56px 0 64px;
+        }
+
+        header {
+            margin-bottom: 32px;
+        }
+
+        h1,
+        h2,
+        h3,
+        p {
+            margin: 0;
+        }
+
+        h1 {
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            font-size: 22px;
+            line-height: 1.1;
+            font-weight: 750;
+            letter-spacing: -0.04em;
+            margin-bottom: 8px;
+        }
+
+        .tagline {
+            color: var(--muted);
+            max-width: 420px;
+            margin-bottom: 8px;
+        }
+
+        .location {
+            color: var(--muted);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 12px;
+        }
+
+        .icon-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .icon-link {
+            width: 22px;
+            height: 22px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--faint);
+            border-radius: 4px;
+            color: var(--muted);
+            background: #fbfbfc;
+        }
+
+        .icon-link svg {
+            width: 14px;
+            height: 14px;
+            display: block;
+        }
+
+        .icon-link:hover {
+            color: var(--text);
+            border-color: #d4d6dc;
+        }
+
+        section {
+            margin-top: 34px;
         }
 
         h2 {
-            font-size: 16px;
-            font-weight: 600;
-            margin: 32px 0 16px 0;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            font-size: 17px;
+            line-height: 1.1;
+            font-weight: 750;
+            letter-spacing: -0.035em;
+            margin-bottom: 14px;
         }
 
-        .item {
-            margin-bottom: 16px;
-            color: var(--text-muted);
+        .about {
+            color: var(--muted);
+            max-width: 620px;
         }
 
-        .item-title {
-            color: var(--text-main);
-            text-decoration: none;
-            border-bottom: 1px solid var(--text-main);
+        .experience-list {
+            display: grid;
+            gap: 14px;
         }
 
-        .item-title:hover {
-            color: var(--text-muted);
-            border-bottom-color: var(--text-muted);
+        .experience-item {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 24px;
         }
 
-        .item-desc {
-            display: inline;
+        .experience-title {
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            font-size: 13px;
+            font-weight: 750;
+            letter-spacing: -0.02em;
+            margin-bottom: 2px;
         }
 
-        .photo-trigger {
+        .experience-role,
+        .experience-copy,
+        .experience-date {
+            color: var(--muted);
+        }
+
+        .experience-copy {
+            max-width: 470px;
+            font-size: 11px;
+            margin-top: 2px;
+        }
+
+        .experience-date {
+            white-space: nowrap;
+            text-align: right;
+            font-size: 11px;
+            padding-top: 1px;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .pill {
+            border-radius: 5px;
+            background: var(--pill);
+            color: #fff;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            line-height: 1;
+            padding: 4px 7px;
+        }
+
+        .featured-project {
+            border: 1px solid var(--faint);
+            border-radius: 8px;
+            padding: 14px;
+            margin-bottom: 12px;
+            background: var(--card);
+            box-shadow: 0 1px 12px rgba(15, 23, 42, 0.03);
+        }
+
+        .featured-top {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 16px;
+            align-items: start;
+            margin-bottom: 12px;
+        }
+
+        .featured-kicker {
+            color: var(--muted);
+            font-size: 10px;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .featured-title {
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            margin-bottom: 6px;
+        }
+
+        .featured-copy {
+            color: var(--muted);
+            max-width: 520px;
+        }
+
+        .demo-box {
+            display: grid;
+            place-items: center;
+            min-height: 150px;
+            border: 1px dashed #cfd3dc;
+            border-radius: 7px;
+            background:
+                linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(15, 23, 42, 0.02)),
+                #fcfcfd;
+            color: var(--muted);
+            text-align: center;
+            padding: 20px;
+        }
+
+        .demo-box strong {
+            display: block;
+            color: var(--text);
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            font-size: 14px;
+            letter-spacing: -0.02em;
+            margin-bottom: 4px;
+        }
+
+        .project-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .text-link {
             display: inline-flex;
             align-items: center;
-            gap: 0.3em;
-            margin-left: 0.25em;
-            padding: 0;
-            border: none;
-            background: none;
-            color: var(--text-muted);
-            font: inherit;
-            font-size: inherit;
-            cursor: pointer;
-            vertical-align: baseline;
+            gap: 4px;
+            color: var(--text);
+            border-bottom: 1px solid #cfd3dc;
         }
 
-        .photo-trigger:hover {
-            color: var(--text-main);
+        .inline-link {
+            color: var(--text);
+            border-bottom: 1px solid #cfd3dc;
         }
 
-        .photo-trigger:hover .photo-trigger-label {
-            color: var(--text-main);
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
         }
 
-        .photo-trigger-label {
-            text-decoration: underline;
-            text-underline-offset: 2px;
+        .project-card {
+            min-height: 98px;
+            border: 1px solid var(--faint);
+            border-radius: 7px;
+            padding: 12px;
+            background: var(--card);
         }
 
-        .photo-trigger:focus-visible {
-            outline: 2px solid var(--text-main);
-            outline-offset: 2px;
-            border-radius: 2px;
+        .project-card h3 {
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            font-size: 12px;
+            line-height: 1.2;
+            font-weight: 750;
+            letter-spacing: -0.02em;
+            margin-bottom: 5px;
         }
 
-        .photo-trigger svg {
-            flex-shrink: 0;
-            opacity: 0.85;
+        .project-card p {
+            color: var(--muted);
+            font-size: 10px;
+            min-height: 34px;
         }
 
-        .photo-trigger:hover svg {
-            opacity: 1;
+        .project-card .meta {
+            display: block;
+            color: var(--text);
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            font-size: 9px;
+            font-weight: 700;
+            margin-top: 9px;
         }
 
-        .lightbox {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 100;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-            background: rgba(0, 0, 0, 0.82);
-        }
-
-        .lightbox.is-open {
+        .footer {
+            margin-top: 40px;
+            padding-top: 16px;
+            border-top: 1px solid var(--faint);
+            color: var(--muted);
             display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
         }
 
-        .lightbox img {
-            max-width: min(90vw, 900px);
-            max-height: 85vh;
-            width: auto;
-            height: auto;
-            border-radius: 4px;
-        }
+        @media (max-width: 640px) {
+            .page {
+                width: min(calc(100% - 28px), 640px);
+                padding-top: 36px;
+            }
 
-        .lightbox-close {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            width: 2.25rem;
-            height: 2.25rem;
-            border: none;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.12);
-            color: #fff;
-            font-size: 1.5rem;
-            line-height: 1;
-            cursor: pointer;
-        }
+            .experience-item,
+            .featured-top {
+                grid-template-columns: 1fr;
+                gap: 4px;
+            }
 
-        .lightbox-close:hover {
-            background: rgba(255, 255, 255, 0.22);
-        }
+            .experience-date {
+                text-align: left;
+            }
 
-        .legacy-foot {
-            margin-top: 2.75rem;
-            padding-top: 1.25rem;
-            border-top: 1px solid #eee;
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-
-        .legacy-foot a {
-            color: var(--text-muted);
-            border-bottom-color: #bbb;
-        }
-
-        .legacy-foot a:hover {
-            color: var(--text-main);
-            border-bottom-color: var(--text-main);
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Giovanni Vitale</h1>
-        <div class="subtitle">
-            <a href="mailto:gioyvitale@gmail.com" style="border:none; text-decoration: underline;">gioyvitale@gmail.com</a> | 
-            <a href="https://www.linkedin.com/in/giovanni-v/" style="border:none; text-decoration: underline;" target="_blank">LinkedIn</a> | 
-            <a href="https://github.com/giovannivitale4722" style="border:none; text-decoration: underline;" target="_blank">GitHub</a>
-        </div>
-        <div class="bio">
-            Incoming SWE intern at Amazon, CS honors student at Stony Brook University.
-        </div>
+    <main class="page">
+        <header>
+            <h1>Giovanni Vitale</h1>
+            <p class="tagline">Incoming Software Engineer Intern at Amazon</p>
+            <p class="location">New York, NY</p>
+            <nav class="icon-row" aria-label="Contact links">
+                <a class="icon-link" href="mailto:gioyvitale@gmail.com" aria-label="Email Giovanni">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+                </a>
+                <a class="icon-link" href="https://www.linkedin.com/in/giovanni-v/" target="_blank" rel="noopener" aria-label="LinkedIn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5ZM.32 8h4.36v14H.32V8Zm7.36 0h4.18v1.91h.06c.58-1.1 2-2.26 4.12-2.26 4.41 0 5.22 2.9 5.22 6.67V22H16.9v-6.8c0-1.62-.03-3.7-2.26-3.7-2.26 0-2.61 1.76-2.61 3.58V22H7.68V8Z"></path></svg>
+                </a>
+                <a class="icon-link" href="https://github.com/giovannivitale4722" target="_blank" rel="noopener" aria-label="GitHub">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M12 .5C5.65.5.5 5.65.5 12c0 5.09 3.29 9.4 7.86 10.93.58.11.79-.25.79-.56v-2.02c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.23-1.28-5.23-5.68 0-1.25.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.16 1.18A10.95 10.95 0 0 1 12 6.2c.98 0 1.96.13 2.88.39 2.19-1.49 3.15-1.18 3.15-1.18.63 1.58.24 2.75.12 3.04.74.8 1.18 1.83 1.18 3.08 0 4.42-2.69 5.39-5.25 5.67.41.36.78 1.06.78 2.14v3.03c0 .31.21.67.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z" clip-rule="evenodd"></path></svg>
+                </a>
+            </nav>
+        </header>
 
-        <h2>Experience</h2>
-        
-        <div class="item">
-            <a href="#" class="item-title">Amazon</a> (2026) - Incoming SWE intern. Building brand knowledge graphs for Amazon Shopping using large-scale distributed systems, AI/ML, and AWS.
-        </div>
+        <section aria-labelledby="about-heading">
+            <h2 id="about-heading">About</h2>
+            <p class="about">
+                Interested in distributed systems, cloud-native applications, databases/storage,
+                machine learning, full-stack products, and all things infrastructure, but overall I love
+                solving technical problems :). Most recently, I
+                <a class="inline-link" href="#projects-heading">built a website that my school made me take down after it went viral</a>.
+                In my free time you could catch me playing Overwatch or going to raves.
+            </p>
+        </section>
 
-        <div class="item">
-            <a href="https://www.linkedin.com/company/acadia-analytics/" class="item-title" target="_blank">Acadia Analytics</a> (2025) - Quant developer intern. Developed models and backtesting frameworks for delta-one products based on soft commodities.
-        </div>
+        <section aria-labelledby="experience-heading">
+            <h2 id="experience-heading">Work Experience</h2>
+            <div class="experience-list">
+                <article class="experience-item">
+                    <div>
+                        <h3 class="experience-title">Amazon</h3>
+                        <p class="experience-role">Incoming Software Engineer Intern</p>
+                        <p class="experience-copy">Building brand knowledge graphs for Amazon Shopping using large-scale distributed systems, AI/ML, and AWS.</p>
+                    </div>
+                    <p class="experience-date">2026</p>
+                </article>
 
-        <div class="item">
-            <span class="item-title" style="border:none; text-decoration: underline;">Google</span> (2025) - Software Engineering Program (G-SWEP).
-        </div>
+                <article class="experience-item">
+                    <div>
+                        <h3 class="experience-title">Acadia Analytics</h3>
+                        <p class="experience-role">Quant Developer Intern</p>
+                        <p class="experience-copy">Developed models and backtesting frameworks for delta-one products based on soft commodities.</p>
+                    </div>
+                    <p class="experience-date">2025</p>
+                </article>
 
-        <div class="item">
-            <span class="item-title" style="border:none; text-decoration: underline;">Stony Brook University</span> (2025) - Teaching assistant for Object-Oriented Programming & Data Structures & Algorithms.
-        </div>
+                <article class="experience-item">
+                    <div>
+                        <h3 class="experience-title">Google</h3>
+                        <p class="experience-role">Software Engineering Program</p>
+                        <p class="experience-copy">Selected for G-SWEP, focused on software engineering interview preparation and project-based training.</p>
+                    </div>
+                    <p class="experience-date">2025</p>
+                </article>
 
-        <h2>Projects</h2>
+                <article class="experience-item">
+                    <div>
+                        <h3 class="experience-title">Stony Brook University</h3>
+                        <p class="experience-role">Teaching Assistant</p>
+                        <p class="experience-copy">TA for Object-Oriented Programming and Data Structures & Algorithms.</p>
+                    </div>
+                    <p class="experience-date">2025</p>
+                </article>
+            </div>
+        </section>
 
-        <div class="item">
-            <a href="https://www.linkedin.com/posts/giovanni-v_my-site-got-thousands-of-users-in-3-days-activity-7394822093907005440-4doe?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAADoR7WABk8GjAbbj342UKB9Zl2NViV_Iswg" class="item-title" target="_blank">SBU Easy A</a> - Site to find the easiest classes at Stony Brook University. Gained thousands of users and 15k+ views in 3 days before the university forced me to take it down. AWS, FastAPI, React.
-        </div>
+        <section aria-labelledby="education-heading">
+            <h2 id="education-heading">Education</h2>
+            <div class="experience-list">
+                <article class="experience-item">
+                    <div>
+                        <h3 class="experience-title">Stony Brook University</h3>
+                        <p class="experience-role">CS Honors Program, Applied Mathematics & Statistics</p>
+                    </div>
+                    <p class="experience-date">2024 - current</p>
+                </article>
+            </div>
+        </section>
 
-        <div class="item">
-            <a href="https://github.com/giovannivitale4722/GreenPrintFinal" class="item-title" target="_blank">GreenPrint</a> - AI-powered carbon footprint tracker that integrates with your bank account to calculate CO₂ emissions for every purchase. Next.js, OpenAI, PostgreSQL.
-        </div>
+        <section aria-labelledby="skills-heading">
+            <h2 id="skills-heading">Skills</h2>
+            <div class="skills">
+                <span class="pill">Python</span>
+                <span class="pill">TypeScript</span>
+                <span class="pill">React</span>
+                <span class="pill">FastAPI</span>
+                <span class="pill">AWS</span>
+                <span class="pill">SQL</span>
+                <span class="pill">PostgreSQL</span>
+                <span class="pill">Pandas</span>
+                <span class="pill">Java</span>
+                <span class="pill">C++</span>
+            </div>
+        </section>
 
-        <div class="item">
-            <a href="https://github.com/giovannivitale4722/stony-brook-course-recommender" class="item-title" target="_blank">Seawolf Course Finder</a> - Natural language processing-based course recommendation system for Stony Brook University students. Python, scikit-learn, Flask.
-        </div>
+        <section aria-labelledby="projects-heading">
+            <h2 id="projects-heading">Projects</h2>
 
-        <div class="item">
-            <a href="https://www.giovitale.com/Partridge-tiling-puzzle/" class="item-title" target="_blank">Partridge Tiling Puzzle Solver</a> - Interactive tool to solve Jane Street's June 2025 puzzle. React, TypeScript.
-        </div>
+            <article class="featured-project">
+                <div class="featured-top">
+                    <div>
+                        <p class="featured-kicker">Featured Project</p>
+                        <h3 class="featured-title">SBU Easy A</h3>
+                        <p class="featured-copy">
+                            A site that helped Stony Brook students find easier general education courses. It reached thousands of users and 15k+ views in three days before the university required it to be taken down.
+                        </p>
+                    </div>
+                    <div class="skills" aria-label="SBU Easy A technologies">
+                        <span class="pill">AWS</span>
+                        <span class="pill">FastAPI</span>
+                        <span class="pill">React</span>
+                    </div>
+                </div>
 
-        <div class="item">
-            <a href="https://github.com/giovannivitale4722/Bionic-Reading-and-more-" class="item-title" target="_blank">Bionic Reading</a> - Chrome extension that adds Bionic Reading mode to improve on-page readability. Won SBU Grace Hopper Hackathon.
-        </div>
+                <a class="demo-box" href="https://www.linkedin.com/posts/giovanni-v_my-site-got-thousands-of-users-in-3-days-activity-7394822093907005440-4doe" target="_blank" rel="noopener">
+                    <span>
+                        <strong>Watch / read the SBU Easy A demo</strong>
+                        Demo link opens the project post
+                    </span>
+                </a>
 
-        <div class="item">
-            <a href="https://www.giovitale.com/BlackScholes-OptionsPricing/" class="item-title" target="_blank">Black-Scholes Options Pricing Calculator</a> - Interactive financial calculator for options pricing with real-time calculations and visual analytics. JavaScript, Chart.js, Canvas.
-        </div>
+                <div class="project-actions">
+                    <a class="text-link" href="https://www.linkedin.com/posts/giovanni-v_my-site-got-thousands-of-users-in-3-days-activity-7394822093907005440-4doe" target="_blank" rel="noopener">Project demo -></a>
+                </div>
+            </article>
 
-        <h2>Currently</h2>
+            <div class="project-grid">
+                <a class="project-card" href="https://github.com/giovannivitale4722/GreenPrintFinal" target="_blank" rel="noopener">
+                    <h3>GreenPrint</h3>
+                    <p>AI-powered carbon footprint tracker connected to bank transactions.</p>
+                    <span class="meta">Next.js / OpenAI</span>
+                </a>
 
-        <div class="item">
-            <a href="https://youtu.be/2Ba-ghhuNiM?si=PxyZofwJKSFsSYy2" class="item-title" target="_blank">Listening</a> - ISOXO Ultra Miami 2026 set. The energy is so insane.
-        </div>
+                <a class="project-card" href="https://github.com/giovannivitale4722/stony-brook-course-recommender" target="_blank" rel="noopener">
+                    <h3>Seawolf Course Finder</h3>
+                    <p>NLP course recommendation system for Stony Brook students.</p>
+                    <span class="meta">Python / Flask</span>
+                </a>
 
-        <div class="item">
-            <a href="https://www.janestreet.com/puzzles/current-puzzle/" class="item-title" target="_blank">Solving</a> - Chipping away at Jane Street's current puzzle.
-        </div>
+                <a class="project-card" href="https://www.giovitale.com/Partridge-tiling-puzzle/" target="_blank" rel="noopener">
+                    <h3>Partridge Tiling Puzzle</h3>
+                    <p>Interactive solver for Jane Street's June 2025 puzzle.</p>
+                    <span class="meta">React / TypeScript</span>
+                </a>
 
-        <div class="item">
-            Playing - Still on Overwatch for Stony Brook esports; peaked #1 in North America.
-            <button type="button" class="photo-trigger" id="ow-photo-trigger" aria-label="See photo: Overwatch #1 North America rank screenshot">
-                <svg width="11" height="11" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8h11M9 3.5L14.5 8 9 12.5"/></svg>
-                <span class="photo-trigger-label">See photo here</span>
-            </button>
-        </div>
+                <a class="project-card" href="https://github.com/giovannivitale4722/Bionic-Reading-and-more-" target="_blank" rel="noopener">
+                    <h3>Bionic Reading</h3>
+                    <p>Chrome extension for more readable web pages. Hackathon winner.</p>
+                    <span class="meta">Chrome Extension</span>
+                </a>
 
-        <p class="legacy-foot">
-            <a href="pages/classic.html">See old website here</a>
-        </p>
-    </div>
+                <a class="project-card" href="https://www.giovitale.com/BlackScholes-OptionsPricing/" target="_blank" rel="noopener">
+                    <h3>Black-Scholes Calculator</h3>
+                    <p>Options pricing tool with live calculations and visual analytics.</p>
+                    <span class="meta">JavaScript / Chart.js</span>
+                </a>
 
-    <div class="lightbox" id="ow-lightbox" role="dialog" aria-modal="true" aria-label="Screenshot">
-        <button type="button" class="lightbox-close" id="ow-lightbox-close" aria-label="Close">&times;</button>
-        <img src="assets/IMG_5041.jpg" alt="Overwatch rank screenshot from #1 North America peak" />
-    </div>
+                <a class="project-card" href="https://www.janestreet.com/puzzles/current-puzzle/" target="_blank" rel="noopener">
+                    <h3>Currently Solving</h3>
+                    <p>Chipping away at Jane Street puzzles and side projects.</p>
+                    <span class="meta">For fun</span>
+                </a>
+            </div>
+        </section>
 
-    <script>
-    (function () {
-        var box = document.getElementById('ow-lightbox');
-        var openBtn = document.getElementById('ow-photo-trigger');
-        var closeBtn = document.getElementById('ow-lightbox-close');
-        if (!box || !openBtn || !closeBtn) return;
-        function open() {
-            box.classList.add('is-open');
-            document.body.style.overflow = 'hidden';
-            closeBtn.focus();
-        }
-        function close() {
-            box.classList.remove('is-open');
-            document.body.style.overflow = '';
-            openBtn.focus();
-        }
-        openBtn.addEventListener('click', open);
-        closeBtn.addEventListener('click', close);
-        box.addEventListener('click', function (e) {
-            if (e.target === box) close();
-        });
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape' && box.classList.contains('is-open')) close();
-        });
-    })();
-    </script>
+        <footer class="footer">
+            <span>gioyvitale@gmail.com</span>
+            <a class="text-link" href="pages/classic.html">Old portfolio -></a>
+        </footer>
+    </main>
 </body>
 </html>
