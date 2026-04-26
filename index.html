@@ -57,7 +57,10 @@
         }
 
         header {
+            position: relative;
             margin-bottom: 32px;
+            min-height: 98px;
+            padding-right: 132px;
         }
 
         h1,
@@ -116,6 +119,16 @@
         .icon-link:hover {
             color: var(--text);
             border-color: #d4d6dc;
+        }
+
+        .character {
+            position: absolute;
+            top: -6px;
+            right: 18px;
+            width: 92px;
+            height: auto;
+            pointer-events: none;
+            user-select: none;
         }
 
         section {
@@ -327,6 +340,17 @@
                 padding-top: 36px;
             }
 
+            header {
+                min-height: 78px;
+                padding-right: 88px;
+            }
+
+            .character {
+                top: -2px;
+                right: 0;
+                width: 70px;
+            }
+
             .experience-item,
             .featured-top {
                 grid-template-columns: 1fr;
@@ -346,6 +370,7 @@
 <body>
     <main class="page">
         <header>
+            <img class="character" src="assets/dog-character.png" alt="" aria-hidden="true">
             <h1>Giovanni Vitale</h1>
             <p class="tagline">Incoming Software Engineer Intern at Amazon</p>
             <p class="location">New York, NY</p>
