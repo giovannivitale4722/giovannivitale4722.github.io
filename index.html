@@ -160,6 +160,58 @@
             gap: 24px;
         }
 
+        .experience-main {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .experience-logo {
+            width: 26px;
+            height: 26px;
+            border-radius: 6px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-top: 1px;
+        }
+
+        .experience-logo--ibm {
+            background: #fff;
+            border: 1px solid var(--faint);
+            overflow: hidden;
+        }
+
+        .experience-logo--ibm img {
+            width: 33px;
+            height: auto;
+        }
+
+        .experience-logo--amazon {
+            background: #fff;
+            border: 1px solid var(--faint);
+        }
+
+        .experience-logo--acadia {
+            background: #fff;
+            border: 1px solid var(--faint);
+        }
+
+        .experience-logo--google {
+            background: #fff;
+            border: 1px solid var(--faint);
+        }
+
+        .experience-logo--sbu {
+            background: #fff;
+            border: 1px solid var(--faint);
+        }
+
         .experience-title {
             font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             font-size: 13px;
@@ -372,7 +424,7 @@
         <header>
             <img class="character" src="assets/dog-character.png" alt="" aria-hidden="true">
             <h1>Giovanni Vitale</h1>
-            <p class="tagline">Incoming Software Engineer Intern at Amazon</p>
+            <p class="tagline">Software Engineer Intern at Amazon</p>
             <p class="location">New York, NY</p>
             <nav class="icon-row" aria-label="Contact links">
                 <a class="icon-link" href="mailto:gioyvitale@gmail.com" aria-label="Email Giovanni">
@@ -402,37 +454,95 @@
             <h2 id="experience-heading">Work Experience</h2>
             <div class="experience-list">
                 <article class="experience-item">
-                    <div>
-                        <h3 class="experience-title">Amazon</h3>
-                        <p class="experience-role">Incoming Software Engineer Intern</p>
-                        <p class="experience-copy">Building brand knowledge graphs for Amazon Shopping using large-scale distributed systems, AI/ML, and AWS.</p>
+                    <div class="experience-main">
+                        <div class="experience-logo experience-logo--ibm"><img src="assets/ibm-logo.png" alt="" aria-hidden="true"></div>
+                        <div>
+                            <h3 class="experience-title">IBM</h3>
+                            <p class="experience-role">Incoming Software Engineer Intern</p>
+                            <p class="experience-copy">Incoming Fall 2026, San Jose, CA.</p>
+                        </div>
                     </div>
                     <p class="experience-date">2026</p>
                 </article>
 
                 <article class="experience-item">
-                    <div>
-                        <h3 class="experience-title">Acadia Analytics</h3>
-                        <p class="experience-role">Quant Developer Intern</p>
-                        <p class="experience-copy">Developed models and backtesting frameworks for delta-one products based on soft commodities.</p>
+                    <div class="experience-main">
+                        <div class="experience-logo experience-logo--amazon">
+                            <svg viewBox="1.5 1.5 21 21" width="21" height="21" aria-hidden="true">
+                                <text x="12" y="15.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="900" fill="#0a0a0a">a</text>
+                                <path d="M4 17.3 C8.5 20.6 16 20.7 19.6 17.6" fill="none" stroke="#FF9900" stroke-width="1.7" stroke-linecap="round"></path>
+                                <path d="M18.5 16.2 L20.8 17.1 L19.4 19.3" fill="none" stroke="#FF9900" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="experience-title">Amazon</h3>
+                            <p class="experience-role">Software Engineer Intern</p>
+                            <p class="experience-copy">Building an AI agent evaluation framework that catches regressions in performance before they ship to production, on the Selection & Catalog Systems (ASCS) team.</p>
+                        </div>
+                    </div>
+                    <p class="experience-date">2026</p>
+                </article>
+
+                <article class="experience-item">
+                    <div class="experience-main">
+                        <div class="experience-logo experience-logo--acadia">
+                            <svg viewBox="1 1 22 22" width="20" height="20" aria-hidden="true">
+                                <circle cx="12" cy="2.6" r="1.1" fill="#0a4f9e"></circle>
+                                <rect x="8.3" y="4.2" width="7.4" height="4.6" rx="0.6" fill="#0a4f9e"></rect>
+                                <rect x="9.6" y="5.2" width="2" height="2" fill="#f4b400"></rect>
+                                <rect x="12.4" y="5.2" width="2" height="2" fill="#f4b400"></rect>
+                                <path d="M9.4 9.4 H14.6 L17 21 H7 Z" fill="#0a4f9e"></path>
+                                <rect x="11.3" y="14.5" width="1.4" height="3.2" rx="0.7" fill="#fff"></rect>
+                                <path d="M2 22.3 C6 20.3 18 20.3 22 22.3" fill="none" stroke="#bcd6f0" stroke-width="1.4" stroke-linecap="round"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="experience-title">Acadia Analytics</h3>
+                            <p class="experience-role">Quant Developer Intern</p>
+                            <p class="experience-copy">Developed models and backtesting frameworks for delta-one products based on soft commodities.</p>
+                        </div>
                     </div>
                     <p class="experience-date">2025</p>
                 </article>
 
                 <article class="experience-item">
-                    <div>
-                        <h3 class="experience-title">Google</h3>
-                        <p class="experience-role">Software Engineering Program</p>
-                        <p class="experience-copy">Selected for G-SWEP, focused on software engineering interview preparation and project-based training.</p>
+                    <div class="experience-main">
+                        <div class="experience-logo experience-logo--google">
+                            <svg viewBox="0.5 0.5 23 23" width="18" height="18" aria-hidden="true">
+                                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"></path>
+                                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"></path>
+                                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"></path>
+                                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="experience-title">Google</h3>
+                            <p class="experience-role">Software Engineering Program</p>
+                            <p class="experience-copy">Selected for G-SWEP, focused on software engineering interview preparation and project-based training.</p>
+                        </div>
                     </div>
                     <p class="experience-date">2025</p>
                 </article>
 
                 <article class="experience-item">
-                    <div>
-                        <h3 class="experience-title">Stony Brook University</h3>
-                        <p class="experience-role">Teaching Assistant</p>
-                        <p class="experience-copy">TA for Object-Oriented Programming and Data Structures & Algorithms.</p>
+                    <div class="experience-main">
+                        <div class="experience-logo experience-logo--sbu">
+                            <svg viewBox="1.2 1.2 21.6 21.6" width="21" height="21" aria-hidden="true">
+                                <clipPath id="sbu-shield">
+                                    <path d="M12 2 L21 5 V12 C21 17.5 17 20.8 12 22.5 C7 20.8 3 17.5 3 12 V5 Z"></path>
+                                </clipPath>
+                                <path d="M12 2 L21 5 V12 C21 17.5 17 20.8 12 22.5 C7 20.8 3 17.5 3 12 V5 Z" fill="#8c1515"></path>
+                                <g clip-path="url(#sbu-shield)">
+                                    <path d="M14 4 L15.5 23 M16.4 4 L18.6 23 M18.8 4 L21.7 23" stroke="#fff" stroke-width="0.9"></path>
+                                </g>
+                                <path d="M9 8.2 L9.95 10.9 L12.8 10.9 L10.5 12.6 L11.4 15.3 L9 13.6 L6.6 15.3 L7.5 12.6 L5.2 10.9 L8.05 10.9 Z" fill="#fff"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="experience-title">Stony Brook University</h3>
+                            <p class="experience-role">Teaching Assistant</p>
+                            <p class="experience-copy">TA for Object-Oriented Programming and Data Structures & Algorithms.</p>
+                        </div>
                     </div>
                     <p class="experience-date">2025</p>
                 </article>
