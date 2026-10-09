@@ -17,6 +17,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Google+Sans+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
+        /* Geomanist (Atipo Foundry). Web font files live in assets/fonts/; Google Sans is the fallback. */
+        @font-face { font-family: "Geomanist"; src: local("Geomanist Regular"), local("Geomanist-Regular"), url("assets/fonts/geomanist-regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+        @font-face { font-family: "Geomanist"; src: local("Geomanist Medium"), local("Geomanist-Medium"), url("assets/fonts/geomanist-medium.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; }
+        @font-face { font-family: "Geomanist"; src: local("Geomanist Medium Italic"), local("Geomanist-MediumItalic"), url("assets/fonts/geomanist-medium-italic.woff2") format("woff2"); font-weight: 500; font-style: italic; font-display: swap; }
+        @font-face { font-family: "Geomanist"; src: local("Geomanist Bold"), local("Geomanist-Bold"), url("assets/fonts/geomanist-bold.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
+
         :root {
             --bg: #ffffff;
             --surface: #f3f3f8;
@@ -28,7 +34,7 @@
             --accent-soft: #dcdcec;
             --shadow: 0 18px 40px -18px rgba(15, 14, 71, 0.4), 0 2px 6px rgba(15, 14, 71, 0.08);
 
-            --sans: "Google Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+            --sans: "Geomanist", "Google Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
             --mono: "Google Sans Code", ui-monospace, "SFMono-Regular", Menlo, monospace;
             --gutter: clamp(16px, 2.2vw, 32px);
         }
@@ -338,13 +344,44 @@
 
         /* ---------- Footer ---------- */
         footer {
-            padding: 40px var(--gutter) 48px;
+            position: relative;
+            overflow: hidden;
             border-top: 1px solid var(--line);
+        }
+
+        .footer-row {
+            position: relative;
+            z-index: 1;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: end;
             gap: 24px;
+            padding: 40px var(--gutter) 0;
+        }
+
+        /* Watercolor wash that rises out of the page bottom. */
+        .pigment {
+            /* Matches the image's 3:1 ratio so its white fade is never cropped. */
+            height: max(33.34vw, 300px);
+            margin-top: clamp(16px, 2vw, 32px);
+            background: url("assets/pigment-drift.webp") center bottom / auto 100% no-repeat;
+            transform-origin: 50% 100%;
+            animation: pigment-drift 40s ease-in-out infinite alternate;
+        }
+
+        @keyframes pigment-drift {
+            from { transform: scale(1.02) translateX(-0.8%); }
+            to { transform: scale(1.06) translateX(0.8%); }
+        }
+
+        .colophon {
+            position: absolute;
+            left: var(--gutter);
+            bottom: 18px;
+            z-index: 1;
+            color: rgba(255, 255, 255, 0.72);
+            font-size: 12px;
         }
 
         footer h2 {
@@ -371,6 +408,7 @@
         @media (prefers-reduced-motion: reduce) {
             .js .reveal { opacity: 1; transform: none; transition: none; }
             .shot, .type-card { transition: none; }
+            .pigment { animation: none; }
         }
 
         /* ---------- Responsive ---------- */
@@ -392,6 +430,7 @@
             .work-grid { grid-template-columns: minmax(0, 1fr); }
             .caption { flex-direction: column; gap: 2px; }
             .about { padding-top: 56px; }
+            .pigment { background-position: 72% bottom; }
         }
     </style>
 </head>
@@ -401,7 +440,6 @@
         <div class="nav-links">
             <a href="#work" aria-current="page">Work</a>
             <a href="#about">About</a>
-            <a href="resume/">Resume</a>
         </div>
         <div class="nav-social">
             <a href="https://github.com/giovannivitale4722" target="_blank" rel="noopener">GitHub</a>
@@ -437,6 +475,18 @@
                 <div class="caption">
                     <h3>SBU Easy A <span>— Thousands of users in three days, then taken down</span></h3>
                     <span class="meta mono">Shipped 2025</span>
+                </div>
+            </a>
+
+            <a class="work reveal" href="https://www.giovitale.com/pr-guide-site/" target="_blank" rel="noopener">
+                <div class="frame" style="--g: radial-gradient(110% 90% at 0% 0%, #f1e9d8 0%, transparent 60%), radial-gradient(100% 100% at 100% 100%, #d3dbec 0%, transparent 65%), linear-gradient(145deg, #f7f4ec, #e3e7f0);">
+                    <div class="shot">
+                        <video src="assets/pr-guide-tour.mp4" poster="assets/pr-guide-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="pr-guide demo: a pull request's files regroup into chapters, then a reviewer steps through each one"></video>
+                    </div>
+                </div>
+                <div class="caption">
+                    <h3>pr-guide <span>— Big pull requests, read in chapters</span></h3>
+                    <span class="meta mono">GitHub Action · Claude Code</span>
                 </div>
             </a>
 
@@ -536,13 +586,17 @@
     </main>
 
     <footer>
-        <h2><a href="mailto:gioyvitale@gmail.com">Say hi →</a></h2>
-        <div class="footer-links mono">
-            <a href="mailto:gioyvitale@gmail.com">Email</a>
-            <a href="https://github.com/giovannivitale4722" target="_blank" rel="noopener">GitHub</a>
-            <a href="https://www.linkedin.com/in/giovanni-v/" target="_blank" rel="noopener">LinkedIn</a>
-            <a href="pages/previous.html">Old portfolio</a>
+        <div class="footer-row">
+            <h2><a href="mailto:gioyvitale@gmail.com">Say hi →</a></h2>
+            <div class="footer-links mono">
+                <a href="mailto:gioyvitale@gmail.com">Email</a>
+                <a href="https://github.com/giovannivitale4722" target="_blank" rel="noopener">GitHub</a>
+                <a href="https://www.linkedin.com/in/giovanni-v/" target="_blank" rel="noopener">LinkedIn</a>
+                <a href="pages/previous.html">Old portfolio</a>
+            </div>
         </div>
+        <div class="pigment" aria-hidden="true"></div>
+        <p class="colophon mono">© 2026 Giovanni Vitale</p>
     </footer>
 
     <script>
