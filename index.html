@@ -559,6 +559,7 @@
         <a class="nav-brand" href="#top"><span>Giovanni Vitale</span></a>
         <div class="nav-links">
             <a href="#work" aria-current="page">Work</a>
+            <a href="#fun">Fun</a>
             <a href="#about">About</a>
         </div>
         <div class="nav-social">
@@ -655,16 +656,6 @@
                 </div>
             </a>
 
-            <a class="work reveal" href="https://www.giovitale.com/Partridge-tiling-puzzle/" target="_blank" rel="noopener">
-                <div class="frame" style="--g: radial-gradient(110% 90% at 0% 0%, #e3efe6 0%, transparent 60%), radial-gradient(100% 100% at 100% 100%, #79a88f 0%, transparent 65%), linear-gradient(145deg, #cfe2d5, #a6c7b3);">
-                    <div class="shot"><img src="assets/partridge-preview.png" alt="Partridge tiling puzzle solver" loading="lazy"></div>
-                </div>
-                <div class="caption">
-                    <div class="caption-top"><h3>Partridge Tiling</h3><div class="tags"><span class="tag">React</span><span class="tag">TypeScript</span></div></div>
-                    <p class="desc">Interactive solver for Jane Street's June puzzle</p>
-                </div>
-            </a>
-
             <a class="work reveal" href="https://github.com/giovannivitale4722/Bionic-Reading-and-more-" target="_blank" rel="noopener">
                 <div class="frame" style="--g: radial-gradient(110% 90% at 0% 0%, #eef3e8 0%, transparent 60%), radial-gradient(100% 100% at 100% 100%, #a9c4ac 0%, transparent 65%), linear-gradient(145deg, #e2ebdc, #c2d6c3);">
                     <p class="type-card bionic"><b>Bio</b>nic <b>rea</b>ding <b>gui</b>des <b>yo</b>ur <b>ey</b>es <b>thr</b>ough <b>te</b>xt <b>b</b>y <b>bold</b>ing <b>th</b>e <b>fi</b>rst <b>let</b>ters <b>o</b>f <b>ea</b>ch <b>wo</b>rd, <b>s</b>o <b>yo</b>u <b>re</b>ad <b>fas</b>ter.</p>
@@ -674,14 +665,27 @@
                     <p class="desc">Chrome extension, hackathon winner</p>
                 </div>
             </a>
+        </section>
 
+        <h2 class="section-label mono">Fun</h2>
+        <section id="fun" class="work-grid" aria-label="Fun">
             <a class="work reveal" href="https://www.janestreet.com/puzzles/current-puzzle/" target="_blank" rel="noopener">
                 <div class="frame" style="--g: radial-gradient(110% 90% at 0% 0%, #fbf8ef 0%, transparent 60%), radial-gradient(100% 100% at 100% 100%, #d9d5c0 0%, transparent 65%), linear-gradient(145deg, #f3f0e3, #e3e0cd);">
                     <div class="shot"><img src="assets/robot-javelin-puzzle.png" alt="Jane Street puzzle" loading="lazy"></div>
                 </div>
                 <div class="caption">
-                    <div class="caption-top"><h3>Currently Solving</h3><div class="tags"><span class="tag">For fun</span></div></div>
+                    <div class="caption-top"><h3>Currently Solving</h3><div class="tags"><span class="tag">Jane Street</span></div></div>
                     <p class="desc">Chipping away at Jane Street puzzles</p>
+                </div>
+            </a>
+
+            <a class="work reveal" href="https://www.giovitale.com/Partridge-tiling-puzzle/" target="_blank" rel="noopener">
+                <div class="frame" style="--g: radial-gradient(110% 90% at 0% 0%, #e3efe6 0%, transparent 60%), radial-gradient(100% 100% at 100% 100%, #79a88f 0%, transparent 65%), linear-gradient(145deg, #cfe2d5, #a6c7b3);">
+                    <div class="shot"><img src="assets/partridge-preview.png" alt="Partridge tiling puzzle solver" loading="lazy"></div>
+                </div>
+                <div class="caption">
+                    <div class="caption-top"><h3>Partridge Tiling</h3><div class="tags"><span class="tag">React</span><span class="tag">TypeScript</span></div></div>
+                    <p class="desc">Interactive solver for Jane Street's June puzzle</p>
                 </div>
             </a>
 
@@ -743,7 +747,7 @@
             items.forEach(function (el) { io.observe(el); });
 
             var links = document.querySelectorAll('.nav-links a[href^="#"]');
-            var sections = ['work', 'about'].map(function (id) { return document.getElementById(id); });
+            var sections = ['work', 'fun', 'about'].map(function (id) { return document.getElementById(id); });
             var spy = new IntersectionObserver(function (entries) {
                 entries.forEach(function (e) {
                     if (!e.isIntersecting) return;
