@@ -115,10 +115,12 @@
         }
 
         .row .meta { color: var(--muted); white-space: nowrap; }
+        .row .co { color: var(--text); }
 
         a.row { position: relative; transition: color 0.15s; }
         a.row:hover { color: var(--jade); }
         a.row:hover .meta { color: var(--soft); }
+        a.row:hover .co { color: var(--jade); }
 
         /* Jade dot slides in on hover. */
         a.row::before {
@@ -145,18 +147,101 @@
             font-style: italic;
         }
 
-        /* ---------- Footer ---------- */
-        footer {
+        /* ---------- Project cards ---------- */
+        .cards { display: grid; gap: 28px; padding-top: 22px; }
+
+        .card {
+            display: block;
+            border-radius: 14px;
+            background: #111814;
+            box-shadow: inset 0 0 0 1px var(--line);
+            overflow: hidden;
+            /* --p is scroll progress into view (0 → 1), set by script; defaults to fully visible. */
+            --p: 1;
+            filter: blur(calc((1 - var(--p)) * 14px));
+            opacity: calc(0.15 + 0.85 * var(--p));
+            transform: translateY(calc((1 - var(--p)) * 36px)) scale(calc(0.97 + 0.03 * var(--p)));
+            transition: transform 0.25s ease-out, box-shadow 0.3s;
+            will-change: filter, opacity, transform;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: inset 0 0 0 1px rgba(127, 200, 164, 0.35), 0 24px 50px -24px rgba(0, 0, 0, 0.9);
+        }
+
+        .card-media {
+            aspect-ratio: 16 / 9;
+            background: #0a0e0c;
+            overflow: hidden;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .card-media img,
+        .card-media video {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-text {
             display: flex;
-            flex-wrap: wrap;
-            gap: 8px 24px;
-            margin-top: 80px;
-            padding-top: 18px;
-            border-top: 1px solid var(--line);
+            justify-content: space-between;
+            gap: 24px;
+            padding: 14px 18px 16px;
+        }
+
+        .card .meta { color: var(--muted); white-space: nowrap; }
+
+        /* Screenshots: show the top of the page. */
+        .card-media img { object-position: top; }
+
+        /* Typographic previews for projects without screenshots. */
+        .type-preview {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 12%;
+            background: radial-gradient(120% 90% at 20% 0%, #15211b, #0a0e0c 70%);
+        }
+
+        .formula {
+            font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+            font-size: clamp(12px, 2.2vw, 16px);
+            line-height: 1.8;
+            color: var(--text);
+            white-space: nowrap;
+        }
+
+        .formula .dim { color: var(--muted); }
+        .formula svg { width: 100%; height: auto; margin-top: 18px; }
+
+        .bionic {
+            font-size: clamp(17px, 3vw, 24px);
+            line-height: 1.5;
             color: var(--muted);
         }
 
-        footer a:hover { color: var(--jade); }
+        .bionic b { color: var(--text); font-weight: 600; }
+        .card:hover .co { color: var(--jade); }
+
+        /* ---------- Contact icons ---------- */
+        .links { display: flex; gap: 6px; margin-right: -6px; color: var(--muted); }
+        .links a:hover { color: var(--jade); }
+
+        .links .icon {
+            display: inline-grid;
+            place-items: center;
+            width: 32px;
+            height: 32px;
+            transition: color 0.15s, transform 0.2s;
+        }
+
+        .links .icon svg { width: 21px; height: 21px; }
+        .links .icon:hover { transform: translateY(-2px); }
 
         @media (prefers-reduced-motion: reduce) {
         }
@@ -174,6 +259,17 @@
     <div class="wrap">
         <header>
             <h1 class="name">Giovanni Vitale</h1>
+            <nav class="links" aria-label="Contact">
+                <a class="icon" href="https://www.linkedin.com/in/giovanni-v/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                </a>
+                <a class="icon" href="https://github.com/giovannivitale4722" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                </a>
+                <a class="icon" href="mailto:gioyvitale@gmail.com" aria-label="Email" title="Email">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                </a>
+            </nav>
         </header>
 
         <div class="intro">
@@ -185,22 +281,108 @@
         <section aria-labelledby="exp">
             <h2 id="exp">Experience</h2>
             <div class="group">
-                <div class="row"><span>Google · Incoming Software Engineer Intern</span><span class="meta">2027</span></div>
-                <div class="row"><span>IBM · Software Engineer Intern</span><span class="meta">2026</span></div>
-                <div class="row"><span>Amazon · Software Engineer Intern</span><span class="meta">2026</span></div>
-                <div class="row"><span>Acadia Analytics · Software Engineer Intern</span><span class="meta">2025</span></div>
+                <div class="row"><span><span class="co">Google</span> · Incoming Software Engineer Intern</span><span class="meta">2027</span></div>
+                <div class="row"><span><span class="co">IBM</span> · Software Engineer Intern</span><span class="meta">2026</span></div>
+                <div class="row"><span><span class="co">Amazon</span> · Software Engineer Intern</span><span class="meta">2026</span></div>
+                <div class="row"><span><span class="co">Acadia Analytics</span> · Software Engineer Intern</span><span class="meta">2025</span></div>
+            </div>
+        </section>
+
+        <section aria-labelledby="projects">
+            <h2 id="projects">Projects</h2>
+            <div class="cards">
+                <a class="card" href="https://www.giovitale.com/pr-guide-site/" target="_blank" rel="noopener">
+                    <div class="card-media">
+                        <video src="assets/pr-guide-tour.mp4" poster="assets/pr-guide-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="pr-guide demo: a pull request's files regroup into chapters, then a reviewer steps through each one"></video>
+                    </div>
+                    <div class="card-text">
+                        <span><span class="co">pr-guide</span> · Big pull requests, read in chapters</span>
+                        <span class="meta">2026</span>
+                    </div>
+                </a>
+                <a class="card" href="https://www.linkedin.com/posts/giovanni-v_my-site-got-thousands-of-users-in-3-days-activity-7394822093907005440-4doe" target="_blank" rel="noopener">
+                    <div class="card-media">
+                        <video src="assets/sbu-easy-a.mp4" poster="assets/sbu-easy-a.png" autoplay muted loop playsinline preload="metadata" aria-label="SBU Easy A demo"></video>
+                    </div>
+                    <div class="card-text">
+                        <span><span class="co">SBU Easy A</span> · Thousands of users in three days, then taken down</span>
+                        <span class="meta">2025</span>
+                    </div>
+                </a>
+                <a class="card" href="https://github.com/giovannivitale4722/GreenPrintFinal" target="_blank" rel="noopener">
+                    <div class="card-media">
+                        <img src="assets/greenprint-dashboard.png" alt="GreenPrint dashboard" loading="lazy">
+                    </div>
+                    <div class="card-text">
+                        <span><span class="co">GreenPrint</span> · AI carbon tracker built on your bank transactions</span>
+                        <span class="meta">Next.js</span>
+                    </div>
+                </a>
+                <a class="card" href="https://github.com/giovannivitale4722/stony-brook-course-recommender" target="_blank" rel="noopener">
+                    <div class="card-media">
+                        <img src="assets/seawolf-course-finder.png" alt="Seawolf Course Finder" loading="lazy">
+                    </div>
+                    <div class="card-text">
+                        <span><span class="co">Seawolf Course Finder</span> · NLP course recommendations for Stony Brook</span>
+                        <span class="meta">Python</span>
+                    </div>
+                </a>
+                <a class="card" href="https://www.giovitale.com/BlackScholes-OptionsPricing/" target="_blank" rel="noopener">
+                    <div class="card-media">
+                        <div class="type-preview formula" aria-hidden="true">
+                            <div>C = S·N(d₁) − K·e<sup>−rT</sup>·N(d₂)</div>
+                            <div class="dim">d₁ = [ln(S/K) + (r + σ²/2)T] / σ√T</div>
+                            <svg viewBox="0 0 300 70"><path d="M0 64 C60 64 90 60 120 48 S180 14 220 8 S280 4 300 4" fill="none" stroke="#7fc8a4" stroke-width="2" stroke-linecap="round"/><path d="M0 64 L130 64 L300 10" fill="none" stroke="#7d8a82" stroke-width="1.2" stroke-dasharray="4 5"/></svg>
+                        </div>
+                    </div>
+                    <div class="card-text">
+                        <span><span class="co">Black-Scholes</span> · Live options pricing with visual Greeks</span>
+                        <span class="meta">JavaScript</span>
+                    </div>
+                </a>
+                <a class="card" href="https://github.com/giovannivitale4722/Bionic-Reading-and-more-" target="_blank" rel="noopener">
+                    <div class="card-media">
+                        <p class="type-preview bionic" aria-hidden="true"><span><b>Bio</b>nic <b>rea</b>ding <b>gui</b>des <b>yo</b>ur <b>ey</b>es <b>thr</b>ough <b>te</b>xt <b>b</b>y <b>bold</b>ing <b>th</b>e <b>fi</b>rst <b>let</b>ters <b>o</b>f <b>ea</b>ch <b>wo</b>rd, <b>s</b>o <b>yo</b>u <b>re</b>ad <b>fas</b>ter.</span></p>
+                    </div>
+                    <div class="card-text">
+                        <span><span class="co">Bionic Reading</span> · Chrome extension, hackathon winner</span>
+                        <span class="meta">Chrome</span>
+                    </div>
+                </a>
             </div>
         </section>
 
         <p class="wip">This site is a work in progress. More to come soon!</p>
 
-        <footer>
-            <a href="mailto:gioyvitale@gmail.com">Email</a>
-            <a href="https://github.com/giovannivitale4722" target="_blank" rel="noopener">GitHub</a>
-            <a href="https://www.linkedin.com/in/giovanni-v/" target="_blank" rel="noopener">LinkedIn</a>
-        </footer>
     </div>
 
+
+    <script>
+        // Project cards come into focus as they scroll up the screen.
+        (function () {
+            if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            var cards = document.querySelectorAll('.card');
+            var ticking = false;
+            function update() {
+                var vh = innerHeight;
+                cards.forEach(function (c) {
+                    var top = c.getBoundingClientRect().top;
+                    // 0 when the card's top is at the bottom edge, 1 once it reaches 45% up the screen.
+                    var p = (vh - top) / (vh * 0.55);
+                    p = Math.max(0, Math.min(1, p));
+                    p = p * p * (3 - 2 * p);
+                    c.style.setProperty('--p', p.toFixed(3));
+                });
+                ticking = false;
+            }
+            function onScroll() {
+                if (!ticking) { ticking = true; requestAnimationFrame(update); }
+            }
+            addEventListener('scroll', onScroll, { passive: true });
+            addEventListener('resize', onScroll);
+            update();
+        })();
+    </script>
 
     <script type="importmap">
         { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
