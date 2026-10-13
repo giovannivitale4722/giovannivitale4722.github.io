@@ -66,6 +66,21 @@
 
         .jade-bg canvas { display: block; width: 100%; height: 100%; }
 
+        /* ---------- Cursor light ---------- */
+        /* A soft glow that follows the pointer across the whole page. */
+        .cursor-light {
+            position: fixed;
+            inset: 0;
+            z-index: 5;
+            pointer-events: none;
+            background: radial-gradient(620px circle at var(--cx, -999px) var(--cy, -999px), rgba(220, 255, 236, 0.022), transparent 60%);
+            mix-blend-mode: screen;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        .cursor-light.on { opacity: 1; }
+
         /* ---------- Column ---------- */
         .wrap {
             position: relative;
@@ -151,30 +166,93 @@
         .cards { display: grid; gap: 28px; padding-top: 22px; }
 
         .card {
+            position: relative;
             display: block;
-            border-radius: 14px;
-            background: #111814;
-            box-shadow: inset 0 0 0 1px var(--line);
+            padding: 10px;
+            border-radius: 24px;
+            background: linear-gradient(160deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.015) 55%, rgba(255, 255, 255, 0.04));
             overflow: hidden;
-            /* --p is scroll progress into view (0 → 1), set by script; defaults to fully visible. */
+            isolation: isolate;
+            /* --p: scroll progress into view (0 → 1). --rx/--ry: pointer tilt. --mx/--my: pointer position. */
             --p: 1;
+            --rx: 0deg;
+            --ry: 0deg;
+            --mx: 50%;
+            --my: 30%;
+            --lift: 0px;
             filter: blur(calc((1 - var(--p)) * 14px));
             opacity: calc(0.15 + 0.85 * var(--p));
-            transform: translateY(calc((1 - var(--p)) * 36px)) scale(calc(0.97 + 0.03 * var(--p)));
-            transition: transform 0.25s ease-out, box-shadow 0.3s;
+            transform: perspective(1000px)
+                translateY(calc((1 - var(--p)) * 36px + var(--lift)))
+                rotateX(var(--rx)) rotateY(var(--ry))
+                scale(calc(0.97 + 0.03 * var(--p)));
+            transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.3s;
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.22),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.4),
+                inset 0 0 24px rgba(200, 255, 225, 0.05),
+                0 24px 48px -28px rgba(0, 0, 0, 0.95);
             will-change: filter, opacity, transform;
         }
 
         .card:hover {
-            transform: translateY(-3px);
-            box-shadow: inset 0 0 0 1px rgba(127, 200, 164, 0.35), 0 24px 50px -24px rgba(0, 0, 0, 0.9);
+            --lift: -4px;
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.28),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.4),
+                inset 0 0 24px rgba(200, 255, 225, 0.05),
+                0 36px 64px -26px rgba(0, 0, 0, 0.95);
+        }
+
+        /* While the pointer moves, track it closely instead of easing. */
+        .card.tracking { transition: transform 0.12s ease-out, box-shadow 0.3s; }
+
+        /* Glass rim: brightest on the side nearest the pointer. */
+        .card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 4;
+            pointer-events: none;
+            border-radius: inherit;
+            padding: 1px;
+            background:
+                radial-gradient(360px circle at var(--mx) var(--my), rgba(190, 255, 220, 0.22), transparent 60%),
+                linear-gradient(160deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.04) 40%, rgba(255, 255, 255, 0.1));
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+        }
+
+
+        /* Blurred copy of the preview behind the glass, so the slab takes on the project's colours. */
+        .card-glow {
+            position: absolute;
+            inset: -20%;
+            z-index: -2;
+            background: var(--glow, radial-gradient(circle at 30% 30%, #2e6f57, #0c100e 70%)) center / cover;
+            filter: blur(38px) saturate(1.8) brightness(0.5);
+            opacity: 0.55;
+        }
+
+        /* The glass itself: frosts the glow and bends it at the edges (refraction added by script). */
+        .card-lens {
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            border-radius: inherit;
+            -webkit-backdrop-filter: blur(6px) saturate(1.4);
+            backdrop-filter: var(--lens-filter, blur(6px) saturate(1.4));
+            background: rgba(12, 16, 14, 0.5);
         }
 
         .card-media {
+            position: relative;
             aspect-ratio: 16 / 9;
+            border-radius: 15px;
             background: #0a0e0c;
             overflow: hidden;
-            border-bottom: 1px solid var(--line);
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 8px 24px -10px rgba(0, 0, 0, 0.8);
         }
 
         .card-media img,
@@ -185,11 +263,13 @@
             object-fit: cover;
         }
 
-        .card-text {
+        .card-caption {
             display: flex;
             justify-content: space-between;
-            gap: 24px;
-            padding: 14px 18px 16px;
+            align-items: baseline;
+            gap: 20px;
+            padding: 13px 8px 4px;
+            color: var(--soft);
         }
 
         .card .meta { color: var(--muted); white-space: nowrap; }
@@ -254,6 +334,7 @@
     </style>
 </head>
 <body>
+    <div class="cursor-light" aria-hidden="true"></div>
     <div class="jade-bg" aria-hidden="true"><canvas></canvas></div>
 
     <div class="wrap">
@@ -292,42 +373,52 @@
             <h2 id="projects">Projects</h2>
             <div class="cards">
                 <a class="card" href="https://www.giovitale.com/pr-guide-site/" target="_blank" rel="noopener">
+                    <div class="card-glow" aria-hidden="true"></div>
+                    <div class="card-lens" aria-hidden="true"></div>
                     <div class="card-media">
                         <video src="assets/pr-guide-tour.mp4" poster="assets/pr-guide-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="pr-guide demo: a pull request's files regroup into chapters, then a reviewer steps through each one"></video>
                     </div>
-                    <div class="card-text">
+                    <div class="card-caption">
                         <span><span class="co">pr-guide</span> · Big pull requests, read in chapters</span>
                         <span class="meta">2026</span>
                     </div>
                 </a>
                 <a class="card" href="https://www.linkedin.com/posts/giovanni-v_my-site-got-thousands-of-users-in-3-days-activity-7394822093907005440-4doe" target="_blank" rel="noopener">
+                    <div class="card-glow" aria-hidden="true"></div>
+                    <div class="card-lens" aria-hidden="true"></div>
                     <div class="card-media">
                         <video src="assets/sbu-easy-a.mp4" poster="assets/sbu-easy-a.png" autoplay muted loop playsinline preload="metadata" aria-label="SBU Easy A demo"></video>
                     </div>
-                    <div class="card-text">
+                    <div class="card-caption">
                         <span><span class="co">SBU Easy A</span> · Thousands of users in three days, then taken down</span>
                         <span class="meta">2025</span>
                     </div>
                 </a>
                 <a class="card" href="https://github.com/giovannivitale4722/GreenPrintFinal" target="_blank" rel="noopener">
+                    <div class="card-glow" aria-hidden="true"></div>
+                    <div class="card-lens" aria-hidden="true"></div>
                     <div class="card-media">
                         <img src="assets/greenprint-dashboard.png" alt="GreenPrint dashboard" loading="lazy">
                     </div>
-                    <div class="card-text">
+                    <div class="card-caption">
                         <span><span class="co">GreenPrint</span> · AI carbon tracker built on your bank transactions</span>
                         <span class="meta">Next.js</span>
                     </div>
                 </a>
                 <a class="card" href="https://github.com/giovannivitale4722/stony-brook-course-recommender" target="_blank" rel="noopener">
+                    <div class="card-glow" aria-hidden="true"></div>
+                    <div class="card-lens" aria-hidden="true"></div>
                     <div class="card-media">
                         <img src="assets/seawolf-course-finder.png" alt="Seawolf Course Finder" loading="lazy">
                     </div>
-                    <div class="card-text">
+                    <div class="card-caption">
                         <span><span class="co">Seawolf Course Finder</span> · NLP course recommendations for Stony Brook</span>
                         <span class="meta">Python</span>
                     </div>
                 </a>
                 <a class="card" href="https://www.giovitale.com/BlackScholes-OptionsPricing/" target="_blank" rel="noopener">
+                    <div class="card-glow" aria-hidden="true"></div>
+                    <div class="card-lens" aria-hidden="true"></div>
                     <div class="card-media">
                         <div class="type-preview formula" aria-hidden="true">
                             <div>C = S·N(d₁) − K·e<sup>−rT</sup>·N(d₂)</div>
@@ -335,16 +426,18 @@
                             <svg viewBox="0 0 300 70"><path d="M0 64 C60 64 90 60 120 48 S180 14 220 8 S280 4 300 4" fill="none" stroke="#7fc8a4" stroke-width="2" stroke-linecap="round"/><path d="M0 64 L130 64 L300 10" fill="none" stroke="#7d8a82" stroke-width="1.2" stroke-dasharray="4 5"/></svg>
                         </div>
                     </div>
-                    <div class="card-text">
+                    <div class="card-caption">
                         <span><span class="co">Black-Scholes</span> · Live options pricing with visual Greeks</span>
                         <span class="meta">JavaScript</span>
                     </div>
                 </a>
                 <a class="card" href="https://github.com/giovannivitale4722/Bionic-Reading-and-more-" target="_blank" rel="noopener">
+                    <div class="card-glow" aria-hidden="true"></div>
+                    <div class="card-lens" aria-hidden="true"></div>
                     <div class="card-media">
                         <p class="type-preview bionic" aria-hidden="true"><span><b>Bio</b>nic <b>rea</b>ding <b>gui</b>des <b>yo</b>ur <b>ey</b>es <b>thr</b>ough <b>te</b>xt <b>b</b>y <b>bold</b>ing <b>th</b>e <b>fi</b>rst <b>let</b>ters <b>o</b>f <b>ea</b>ch <b>wo</b>rd, <b>s</b>o <b>yo</b>u <b>re</b>ad <b>fas</b>ter.</span></p>
                     </div>
-                    <div class="card-text">
+                    <div class="card-caption">
                         <span><span class="co">Bionic Reading</span> · Chrome extension, hackathon winner</span>
                         <span class="meta">Chrome</span>
                     </div>
@@ -358,6 +451,138 @@
 
 
     <script>
+        // Page-wide cursor light (mouse and trackpad only).
+        (function () {
+            if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+            var light = document.querySelector('.cursor-light');
+            var raf = null, x = 0, y = 0;
+            addEventListener('pointermove', function (e) {
+                x = e.clientX; y = e.clientY;
+                light.classList.add('on');
+                if (!raf) raf = requestAnimationFrame(function () {
+                    light.style.setProperty('--cx', x + 'px');
+                    light.style.setProperty('--cy', y + 'px');
+                    raf = null;
+                });
+            }, { passive: true });
+            document.documentElement.addEventListener('pointerleave', function () { light.classList.remove('on'); });
+        })();
+
+        // Liquid glass: pointer tilt and light, plus real refraction where the browser supports it.
+        (function () {
+            var cards = document.querySelectorAll('.card');
+
+            // Tint each slab with its own preview.
+            cards.forEach(function (card) {
+                var m = card.querySelector('.card-media img, .card-media video');
+                var src = m && (m.getAttribute('poster') || m.getAttribute('src'));
+                if (src) card.querySelector('.card-glow').style.setProperty('--glow', 'url("' + src + '")');
+            });
+            var still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+            var fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+            if (fine) cards.forEach(function (card) {
+                card.addEventListener('pointermove', function (e) {
+                    var r = card.getBoundingClientRect();
+                    var x = (e.clientX - r.left) / r.width;
+                    var y = (e.clientY - r.top) / r.height;
+                    card.style.setProperty('--mx', (x * 100).toFixed(1) + '%');
+                    card.style.setProperty('--my', (y * 100).toFixed(1) + '%');
+                    if (!still) {
+                        card.style.setProperty('--rx', ((0.5 - y) * 5).toFixed(2) + 'deg');
+                        card.style.setProperty('--ry', ((x - 0.5) * 6).toFixed(2) + 'deg');
+                        card.classList.add('tracking');
+                    }
+                });
+                card.addEventListener('pointerleave', function () {
+                    card.classList.remove('tracking');
+                    card.style.setProperty('--rx', '0deg');
+                    card.style.setProperty('--ry', '0deg');
+                });
+            });
+
+            // SVG backdrop refraction only renders in Chromium; elsewhere the CSS frosted lens stays.
+            var brands = (navigator.userAgentData && navigator.userAgentData.brands) || [];
+            var chromium = brands.some(function (b) { return /Chromium/.test(b.brand); });
+            if (!chromium) return;
+
+            var NS = 'http://www.w3.org/2000/svg';
+            var defs = document.createElementNS(NS, 'svg');
+            defs.setAttribute('width', '0');
+            defs.setAttribute('height', '0');
+            defs.setAttribute('aria-hidden', 'true');
+            defs.style.position = 'absolute';
+            document.body.appendChild(defs);
+
+            // Displacement map for a rounded rectangle: inside an edge band ("shoulder") the
+            // backdrop is sampled from further inward, so edges bend light like a thick lens.
+            function makeMap(w, h, radius, band) {
+                var c = document.createElement('canvas');
+                c.width = w; c.height = h;
+                var ctx = c.getContext('2d');
+                var img = ctx.createImageData(w, h);
+                var d = img.data, hw = w / 2, hh = h / 2;
+                for (var y = 0; y < h; y++) {
+                    for (var x = 0; x < w; x++) {
+                        var i = (y * w + x) * 4;
+                        var px = x + 0.5 - hw, py = y + 0.5 - hh;
+                        var qx = Math.abs(px) - (hw - radius), qy = Math.abs(py) - (hh - radius);
+                        var ox = Math.max(qx, 0), oy = Math.max(qy, 0);
+                        var out = Math.hypot(ox, oy);
+                        var inward = -(out + Math.min(Math.max(qx, qy), 0) - radius);
+                        var dx = 0, dy = 0;
+                        if (inward > 0 && inward < band) {
+                            var nx, ny;
+                            if (out > 1e-6) { nx = ox / out * Math.sign(px); ny = oy / out * Math.sign(py); }
+                            else if (qx > qy) { nx = Math.sign(px); ny = 0; }
+                            else { nx = 0; ny = Math.sign(py); }
+                            var t = 1 - inward / band;
+                            var m = t * t;
+                            dx = -nx * m; dy = -ny * m;
+                        }
+                        d[i] = 128 + dx * 127;
+                        d[i + 1] = 128 + dy * 127;
+                        d[i + 2] = 128;
+                        d[i + 3] = 255;
+                    }
+                }
+                ctx.putImageData(img, 0, 0);
+                return c.toDataURL();
+            }
+
+            document.querySelectorAll('.card-lens').forEach(function (glass, n) {
+                var id = 'lg-' + n;
+                function build() {
+                    var w = Math.round(glass.offsetWidth), h = Math.round(glass.offsetHeight);
+                    if (!w || !h) return;
+                    var old = document.getElementById(id);
+                    if (old) old.remove();
+                    var f = document.createElementNS(NS, 'filter');
+                    f.setAttribute('id', id);
+                    f.setAttribute('x', '0'); f.setAttribute('y', '0');
+                    f.setAttribute('width', w); f.setAttribute('height', h);
+                    f.setAttribute('filterUnits', 'userSpaceOnUse');
+                    f.setAttribute('color-interpolation-filters', 'sRGB');
+                    var im = document.createElementNS(NS, 'feImage');
+                    im.setAttribute('href', makeMap(w, h, 24, 26));
+                    im.setAttribute('x', '0'); im.setAttribute('y', '0');
+                    im.setAttribute('width', w); im.setAttribute('height', h);
+                    im.setAttribute('preserveAspectRatio', 'none');
+                    im.setAttribute('result', 'map');
+                    var dm = document.createElementNS(NS, 'feDisplacementMap');
+                    dm.setAttribute('in', 'SourceGraphic');
+                    dm.setAttribute('in2', 'map');
+                    dm.setAttribute('scale', '48');
+                    dm.setAttribute('xChannelSelector', 'R');
+                    dm.setAttribute('yChannelSelector', 'G');
+                    f.appendChild(im); f.appendChild(dm);
+                    defs.appendChild(f);
+                    glass.style.setProperty('--lens-filter', 'url(#' + id + ') blur(6px) saturate(1.5)');
+                }
+                new ResizeObserver(build).observe(glass);
+            });
+        })();
+
         // Project cards come into focus as they scroll up the screen.
         (function () {
             if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
