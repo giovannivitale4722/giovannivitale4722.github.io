@@ -162,6 +162,46 @@
             font-style: italic;
         }
 
+        /* ---------- "If you've made it this far" ---------- */
+        .further {
+            display: inline-block;
+            margin-top: 10px;
+            color: var(--soft);
+            transition: color 0.2s;
+        }
+
+        .further span { display: inline-block; transition: transform 0.25s; }
+        .further:hover { color: var(--jade); }
+        .further:hover span { transform: translateX(4px); }
+        .further.opened span { transform: rotate(90deg); }
+
+        .personal { margin-top: 64px; }
+        .personal h2 { margin-bottom: 18px; }
+        .personal p + p, .personal .notes-link + p { margin-top: 16px; }
+
+        .notes-link {
+            display: inline-block;
+            margin-top: 16px;
+            color: var(--text);
+            border-bottom: 1px solid var(--jade-deep);
+            transition: color 0.2s, border-color 0.2s;
+        }
+
+        .notes-link:hover { color: var(--jade); border-color: var(--jade); }
+        .signoff { color: var(--muted); font-style: italic; }
+
+        /* Tucked away until the link is clicked (only when JS is on). */
+        .js-tuck .personal { display: none; }
+        .personal.revealing { animation: personal-in 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+
+        @keyframes personal-in {
+            from { opacity: 0; filter: blur(12px); transform: translateY(24px); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .personal.revealing { animation: none; }
+        }
+
         /* ---------- Project cards ---------- */
         .cards { display: grid; gap: 28px; padding-top: 22px; }
 
@@ -446,11 +486,35 @@
         </section>
 
         <p class="wip">This site is a work in progress. More to come soon!</p>
+        <a class="further" href="#personal">If you've made it this far <span aria-hidden="true">→</span></a>
+
+        <section id="personal" class="personal" aria-labelledby="personal-h">
+            <h2 id="personal-h">A bit more about me</h2>
+            <p>Right now I'm really interested in ad exchanges: how a single ad slot gets auctioned, priced and filled in the time it takes a page to load. I've been studying up on it, and condensing all my notes into one place.</p>
+            <a class="notes-link" href="https://www.giovitale.com/ads-knowledge/#home" target="_blank" rel="noopener">Ads Knowledge <span aria-hidden="true">↗</span></a>
+            <p class="signoff">Thanks for scrolling this far.</p>
+        </section>
 
     </div>
 
 
     <script>
+        // "If you've made it this far": unfold the personal section and scroll to it.
+        (function () {
+            var link = document.querySelector('.further');
+            var section = document.getElementById('personal');
+            if (location.hash !== '#personal') document.documentElement.classList.add('js-tuck');
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.documentElement.classList.remove('js-tuck');
+                section.classList.add('revealing');
+                link.classList.add('opened');
+                var still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+                section.scrollIntoView({ behavior: still ? 'auto' : 'smooth', block: 'start' });
+                history.replaceState(null, '', '#personal');
+            });
+        })();
+
         // Page-wide cursor light (mouse and trackpad only).
         (function () {
             if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
