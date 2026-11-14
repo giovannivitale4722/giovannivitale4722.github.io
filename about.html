@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BQX05JW23Q"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BQX05JW23Q');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About — Giovanni Vitale</title>
+    <meta name="description" content="Some stuff about Giovanni Vitale: puzzles, Overwatch, and ad exchanges.">
+    <meta name="theme-color" content="#f5f2eb">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --paper: #f5f2eb;
+            --ink: #22201c;
+            --soft: #5f5a51;
+            --muted: #9a9387;
+            --line: #e3ddd1;
+            --px-off: #e9e3d8;
+
+            --jade: #2f9e74;
+            --jade-soft: #bfe5d1;
+            --violet: #8a63d8;
+            --violet-soft: #ddd0f7;
+            --sbu: #990000;
+            --ibm: #0f62fe;
+            --amber: #f08a3c;
+            --sun: #f2c14e;
+
+            --serif: "Fraunces", "Iowan Old Style", Georgia, serif;
+            --sans: "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
+            --mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+            color-scheme: light;
+        }
+
+        * { box-sizing: border-box; }
+        html { background: var(--paper); scroll-padding-top: 40px; scroll-behavior: smooth; }
+        @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--soft);
+            font-family: var(--sans);
+            font-size: 17px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        a { color: inherit; text-decoration: none; }
+        h1, h2, h3, p { margin: 0; font-weight: inherit; font-size: inherit; }
+        ::selection { background: var(--sun); color: var(--ink); }
+        .mono { font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.02em; }
+
+        /* ---------- Header ---------- */
+        .top {
+            position: relative;
+            z-index: 3;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 28px 40px;
+        }
+
+        .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); font-weight: 500; }
+
+        /* A 2x2 pixel mark echoing the grid. */
+        .brand-mark { display: grid; grid-template-columns: repeat(2, 7px); gap: 2px; }
+        .brand-mark i { width: 7px; height: 7px; border-radius: 2px; }
+        .brand-mark i:nth-child(1) { background: var(--jade); }
+        .brand-mark i:nth-child(2) { background: var(--amber); }
+        .brand-mark i:nth-child(3) { background: var(--violet); }
+        .brand-mark i:nth-child(4) { background: var(--ink); }
+
+        .nav { display: flex; gap: 28px; color: var(--muted); }
+        .nav a { transition: color 0.15s; }
+        .nav a:hover { color: var(--ink); }
+
+        .icons { display: flex; justify-content: flex-end; gap: 6px; }
+        .icon {
+            display: grid;
+            place-items: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            color: var(--soft);
+            transition: background 0.15s, color 0.15s;
+        }
+        .icon:hover { background: #ebe5da; color: var(--ink); }
+        .icon svg { width: 18px; height: 18px; }
+
+        .nav a[aria-current="page"] { color: var(--ink); }
+
+        /* ---------- About ---------- */
+        .about {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 64px 40px 140px;
+        }
+
+        h1 {
+            font-family: var(--serif);
+            font-weight: 560;
+            font-size: clamp(38px, 4.6vw, 58px);
+            line-height: 1;
+            letter-spacing: -0.035em;
+            color: var(--ink);
+            font-variation-settings: "opsz" 144;
+        }
+
+        section { margin-top: 72px; }
+        h1 + section { margin-top: 48px; }
+
+        .sec-head {
+            display: flex;
+            align-items: baseline;
+            gap: 14px;
+            padding-bottom: 14px;
+            margin-bottom: 26px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .sec-head h2 {
+            font-family: var(--serif);
+            font-style: italic;
+            font-weight: 400;
+            font-size: 30px;
+            letter-spacing: -0.02em;
+            color: var(--ink);
+        }
+
+        .sec-head .mono { color: var(--muted); }
+        .sec-intro { max-width: 38em; margin-bottom: 30px; }
+
+        .inline-link { color: var(--ink); border-bottom: 1.5px solid var(--violet-soft); transition: border-color 0.2s; }
+        .inline-link:hover { border-color: var(--violet); }
+
+        /* ---------- Cards (same as the homepage's projects) ---------- */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 48px 36px;
+        }
+
+        .card { display: block; color: var(--soft); }
+
+        .card-media {
+            position: relative;
+            aspect-ratio: 16 / 10;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #ece6db;
+            box-shadow: 0 0 0 1px rgba(34, 32, 28, 0.06);
+            transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s;
+        }
+
+        .card:hover .card-media {
+            transform: translateY(-4px);
+            box-shadow: 0 0 0 2px var(--c), 0 22px 40px -24px color-mix(in srgb, var(--c) 70%, black);
+        }
+
+        .card-media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+        .card-title { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-top: 14px; }
+        .card-title strong { font-family: var(--serif); font-weight: 500; font-size: 22px; letter-spacing: -0.015em; color: var(--ink); }
+        .card-title .mono { color: var(--muted); white-space: nowrap; }
+        .card p { margin-top: 2px; font-size: 15.5px; line-height: 1.5; }
+        .card .arrow { display: inline-block; color: var(--c); transition: transform 0.25s; }
+        .card:hover .arrow { transform: translate(3px, -3px); }
+
+        /* ---------- Featured puzzle ---------- */
+        .feature {
+            display: grid;
+            grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+            gap: 40px;
+            align-items: center;
+        }
+
+        .feature-shot, .ow-shot {
+            display: block;
+            width: 100%;
+            padding: 0;
+            border: 0;
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: zoom-in;
+            transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .feature-shot { background: #fff; box-shadow: 0 0 0 1px rgba(34, 32, 28, 0.08), 0 30px 60px -38px rgba(40, 30, 10, 0.5); }
+        .feature-shot:hover { transform: translateY(-4px); }
+        .feature-shot img { display: block; width: 100%; height: auto; }
+
+        .feature-kicker { color: var(--muted); }
+        .feature h3 {
+            margin-top: 6px;
+            font-family: var(--serif);
+            font-weight: 520;
+            font-size: 30px;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            color: var(--ink);
+        }
+        .feature-text p { margin-top: 12px; }
+        .feature-text em { font-family: var(--serif); font-size: 1.08em; color: var(--ink); }
+
+        .reveal-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 22px;
+            padding: 10px 16px;
+            border: 0;
+            border-radius: 999px;
+            background: var(--ink);
+            color: var(--paper);
+            font: 500 15px var(--sans);
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+        }
+        .reveal-btn:hover { transform: translateY(-2px); background: #3a3631; }
+        .reveal-btn span { display: inline-block; transition: transform 0.3s; }
+        .reveal-btn[aria-expanded="true"] span { transform: rotate(180deg); }
+
+        .solution { margin-top: 44px; scroll-margin-top: 32px; }
+        .solution[hidden] { display: none; }
+        .solution.opening { animation: sol-in 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+        @keyframes sol-in { from { opacity: 0; filter: blur(10px); transform: translateY(18px); } }
+
+        .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 30px; }
+        .step { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 16px; }
+        .step-n {
+            display: grid;
+            place-items: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 9px;
+            background: color-mix(in srgb, var(--c) 16%, transparent);
+            color: color-mix(in srgb, var(--c) 80%, black);
+            font-family: var(--mono);
+            font-size: 13px;
+        }
+        .step h4 { margin: 4px 0; font-family: var(--serif); font-weight: 500; font-size: 21px; letter-spacing: -0.01em; color: var(--ink); }
+        .step p { max-width: 40em; }
+        .step p + p { margin-top: 10px; }
+        .step code { font-family: var(--mono); font-size: 0.86em; color: var(--ink); background: #ece6db; padding: 1px 6px; border-radius: 5px; }
+
+        .tool { max-width: 520px; margin-top: 16px; }
+        .tool .card-media { aspect-ratio: 16 / 9; }
+
+        .answer {
+            display: inline-block;
+            padding: 10px 16px;
+            border-radius: 12px;
+            background: #fff3cf;
+            color: var(--ink);
+            font-family: var(--serif);
+            font-style: italic;
+            font-size: 22px;
+        }
+
+        .sol-links { display: flex; flex-wrap: wrap; gap: 22px; margin-top: 32px; padding-left: 60px; }
+
+        /* ---------- Other puzzle sources ---------- */
+        .more-h {
+            margin: 64px 0 14px;
+            font-family: var(--serif);
+            font-weight: 500;
+            font-size: 22px;
+            letter-spacing: -0.01em;
+            color: var(--ink);
+        }
+
+        .sources { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+
+        .source {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding: 18px 20px;
+            border-radius: 14px;
+            background: color-mix(in srgb, var(--c) 7%, transparent);
+            box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c) 18%, transparent);
+            transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.25s;
+        }
+        .source:hover { transform: translateY(-3px); background: color-mix(in srgb, var(--c) 12%, transparent); }
+        .source-name { color: var(--ink); font-weight: 500; }
+        .source-name .arrow { display: inline-block; color: var(--c); transition: transform 0.25s; }
+        .source:hover .arrow { transform: translate(3px, -3px); }
+        .source-desc { font-size: 15px; line-height: 1.45; }
+
+        /* ---------- Overwatch ---------- */
+        .ow {
+            display: grid;
+            grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+            gap: 40px;
+            align-items: center;
+        }
+
+        .ow-shot {
+            background: #ece6db;
+            box-shadow: 0 0 0 1px rgba(34, 32, 28, 0.06), 0 30px 60px -36px rgba(80, 40, 140, 0.55);
+            transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .ow-shot:hover { transform: translateY(-4px) rotate(-0.4deg); }
+        .ow-shot img { display: block; width: 100%; height: auto; }
+
+        .ow-rank {
+            font-family: var(--serif);
+            font-weight: 560;
+            font-size: clamp(32px, 3.4vw, 44px);
+            line-height: 1.04;
+            letter-spacing: -0.03em;
+            color: var(--ink);
+        }
+        .ow-rank b { font-weight: 620; color: #f99e1a; }
+        .ow-text .ow-rank { margin-top: 0; }
+
+        .clips { display: inline-flex; align-items: center; gap: 10px; margin-top: 22px; color: var(--muted); cursor: default; }
+        .clips .soon { padding: 1px 8px; border-radius: 999px; background: #ece6db; font-family: var(--mono); font-size: 11px; }
+        .ow-text p { margin-top: 14px; }
+
+        .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+        .chip {
+            padding: 3px 10px;
+            border-radius: 999px;
+            background: color-mix(in srgb, var(--c) 14%, transparent);
+            color: color-mix(in srgb, var(--c) 75%, black);
+            font-family: var(--mono);
+            font-size: 12px;
+        }
+
+        .lightbox { padding: 0; border: 0; background: transparent; max-width: min(1200px, 94vw); cursor: zoom-out; }
+        .lightbox::backdrop { background: rgba(20, 18, 15, 0.82); }
+        .lightbox img { display: block; width: 100%; height: auto; border-radius: 12px; }
+
+        /* ---------- Lately ---------- */
+        .lately p { max-width: 38em; }
+        .lately p + p { margin-top: 16px; }
+
+        .notes-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 20px 0 6px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: #fbe3cf;
+            color: #8a4a17;
+            font-weight: 500;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .notes-link:hover { background: #f9d3b2; transform: translateY(-2px); }
+
+        .signoff { margin-top: 64px; color: var(--muted); font-family: var(--serif); font-style: italic; }
+
+        @media (max-width: 900px) {
+            .top { grid-template-columns: 1fr auto; padding: 22px 22px; }
+            .nav { grid-column: 1 / -1; order: 3; gap: 22px; margin-top: 6px; font-size: 15px; }
+            .about { padding: 32px 22px 100px; }
+            .cards, .ow, .feature, .sources { grid-template-columns: minmax(0, 1fr); }
+            .sol-links { padding-left: 0; }
+            section { margin-top: 80px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; }
+        }
+    </style>
+</head>
+<body>
+    <header class="top">
+        <span class="brand">
+            <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+            Giovanni Vitale
+        </span>
+        <nav class="nav" aria-label="Sections">
+            <a href="index.html">Home</a>
+            <a href="index.html#projects">Projects</a>
+            <a data-track="About" data-section="header" href="about.html" aria-current="page">About</a>
+        </nav>
+        <nav class="icons" aria-label="Contact">
+            <a class="icon" data-track="LinkedIn" data-section="header" href="https://www.linkedin.com/in/giovanni-v/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a class="icon" data-track="GitHub" data-section="header" href="https://github.com/giovannivitale4722" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+            </a>
+            <a class="icon" data-track="Email" data-section="header" href="mailto:gioyvitale@gmail.com" aria-label="Email" title="Email">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            </a>
+        </nav>
+    </header>
+
+    <main class="about">
+        <h1>Some stuff about me</h1>
+
+        <section id="puzzles" aria-labelledby="puzzles-h" data-view="about-puzzles">
+            <div class="sec-head">
+                <span class="mono">01</span>
+                <h2 id="puzzles-h">Puzzles</h2>
+            </div>
+            <p class="sec-intro">
+                Mostly <a class="inline-link" data-track="Jane Street puzzles" data-section="about-puzzles" href="https://www.janestreet.com/puzzles/" target="_blank" rel="noopener">Jane Street puzzles ↗</a>, or ones like them: there's no actual question, just an ambiguous problem
+                where half the work is figuring out what's even being asked. Here's one I really liked.
+            </p>
+
+            <div class="feature">
+                <button class="feature-shot" type="button" data-zoom data-track="Puzzle photo" data-section="about-puzzles" aria-label="Enlarge the puzzle">
+                    <img src="assets/some-ones-somewhere.jpg" alt="Nine overhead photos of a square wooden board partly covered in coloured square tiles" loading="lazy">
+                </button>
+                <div class="feature-text">
+                    <p class="feature-kicker mono">jane street · june 2025</p>
+                    <h3>Some Ones, Somewhere</h3>
+                    <p>The whole puzzle is nine photos of a board with some coloured tiles on it. The only instruction: <em>the answer is a sentence.</em></p>
+                    <p>Once I had a hunch about what was going on, I built a tool to test it quickly, and it led me to the answer.</p>
+                    <button class="reveal-btn" type="button" aria-expanded="false" aria-controls="solution" data-track="Puzzle solution" data-section="about-puzzles">See the solution &amp; how I got there <span aria-hidden="true">↓</span></button>
+                </div>
+            </div>
+
+            <div class="solution" id="solution" hidden>
+                <ol class="steps">
+                    <li class="step" style="--c:#8a63d8">
+                        <span class="step-n">01</span>
+                        <div>
+                            <h4>The hunch</h4>
+                            <p>Letters scattered along the edges of the board spelled out <code>tiling</code> and <code>partridge</code>. A <a class="inline-link" data-track="Partridge puzzle explainer" data-section="about-puzzles" href="https://pyrigan.com/2017/02/17/the-partridge-puzzle/" target="_blank" rel="noopener">partridge tiling ↗</a> packs one 1×1 square, two 2×2s, three 3×3s, and so on up to nine 9×9s, perfectly into a 45×45 square. So every photo was probably an unfinished partridge tiling.</p>
+                        </div>
+                    </li>
+                    <li class="step" style="--c:#2f9e74">
+                        <span class="step-n">02</span>
+                        <div>
+                            <h4>The idea</h4>
+                            <p>Each tiling has exactly one 1×1 square, the "one". If I could finish each board, the one's row and column would give a pair of coordinates, and filling the blank spots along the edges with a repeating A–Z turns those coordinates into letters.</p>
+                        </div>
+                    </li>
+                    <li class="step" style="--c:#f08a3c">
+                        <span class="step-n">03</span>
+                        <div>
+                            <h4>The tool</h4>
+                            <p>Finishing nine 45×45 tilings by hand is slow and error-prone, so I built an interactive solver to place tiles, check what fits, and test the idea quickly.</p>
+                            <a class="card tool" style="--c:#f08a3c" data-track="Partridge Tiling" data-section="about-puzzles" href="https://www.giovitale.com/Partridge-tiling-puzzle/" target="_blank" rel="noopener">
+                                <div class="card-media"><img src="assets/partridge-preview.png" alt="Partridge tiling puzzle solver" loading="lazy"></div>
+                                <div class="card-title"><strong>Partridge Tiling solver <span class="arrow">↗</span></strong><span class="mono">react · typescript</span></div>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="step" style="--c:#e2574c">
+                        <span class="step-n">04</span>
+                        <div>
+                            <h4>The answer</h4>
+                            <p>The nine ones read <code>SU MO FC UB ES IS SQ UA RE</code>. Add the spare tiles sitting on the side table in two of the photos and you get:</p>
+                            <p class="answer">"the sum of cubes is a square"</p>
+                            <p>which is exactly what a partridge tiling proves: 1³ + 2³ + … + 9³ = 45².</p>
+                        </div>
+                    </li>
+                </ol>
+                <div class="sol-links">
+                    <a class="inline-link" data-track="Jane Street puzzle" data-section="about-puzzles" href="https://www.janestreet.com/puzzles/some-ones-somewhere-index/" target="_blank" rel="noopener">The original puzzle ↗</a>
+                    <a class="inline-link" data-track="Jane Street solution" data-section="about-puzzles" href="https://www.janestreet.com/puzzles/some-ones-somewhere-solution/" target="_blank" rel="noopener">Jane Street's write-up ↗</a>
+                </div>
+            </div>
+
+            <h3 class="more-h">Other puzzles I like working on</h3>
+            <div class="sources">
+                <a class="source" style="--c:#2f9e74" data-track="Jane Street puzzles" data-section="about-puzzles" href="https://www.janestreet.com/puzzles/" target="_blank" rel="noopener">
+                    <span class="source-name">Jane Street puzzles <span class="arrow">↗</span></span>
+                    <span class="source-desc">A new one every month, usually with no question attached.</span>
+                </a>
+                <a class="source" style="--c:#4a8fd9" data-track="MAA Problem of the Month" data-section="about-puzzles" href="http://sections.maa.org/metrony/problemofthemonth.html" target="_blank" rel="noopener">
+                    <span class="source-name">MAA Problem of the Month <span class="arrow">↗</span></span>
+                    <span class="source-desc">From the MAA's Metro New York section.</span>
+                </a>
+                <a class="source" style="--c:#0f62fe" data-track="IBM Ponder This" data-section="about-puzzles" href="https://research.ibm.com/labs/israel/ponder-this" target="_blank" rel="noopener">
+                    <span class="source-name">IBM Ponder This <span class="arrow">↗</span></span>
+                    <span class="source-desc">Slightly harder math puzzles from IBM Research.</span>
+                </a>
+            </div>
+        </section>
+
+        <section id="overwatch" aria-labelledby="ow-h" data-view="about-overwatch">
+            <div class="sec-head">
+                <span class="mono">02</span>
+                <h2 id="ow-h">Overwatch</h2>
+            </div>
+            <div class="ow">
+                <button class="ow-shot" type="button" data-zoom data-track="Overwatch screenshot" data-section="about-overwatch" aria-label="Enlarge the Top 500 screenshot">
+                    <img src="assets/IMG_5041.jpg" alt="Overwatch Top 500 leaderboard showing rank 1, Tank, Americas" loading="lazy">
+                </button>
+                <div class="ow-text">
+                    <p class="ow-rank"><b>Rank 1</b> in North America</p>
+                    <p>I play Overwatch in some of my free time. At one point I was rank 1 in North America, and I was consistently Top 500 in the other roles too, DPS and support.</p>
+                    <div class="chips">
+                        <span class="chip" style="--c:#f99e1a">tank</span>
+                        <span class="chip" style="--c:#2f9e74">peak 4592 SR</span>
+                        <span class="chip" style="--c:#8a63d8">top 500 · dps &amp; support</span>
+                    </div>
+                    <p class="clips" aria-disabled="true">Some clips of me playing → <span class="soon">coming soon</span></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="lately" class="lately" aria-labelledby="lately-h" data-view="about-lately">
+            <div class="sec-head">
+                <span class="mono">03</span>
+                <h2 id="lately-h">Lately</h2>
+            </div>
+            <p>Right now I'm really interested in ad exchanges: how a single ad slot gets auctioned, priced and filled in the time it takes a page to load. I've been studying up on it, and condensing all my notes into one place.</p>
+            <a class="notes-link" data-track="Ads Knowledge" data-section="about-lately" href="https://www.giovitale.com/ads-knowledge/#home" target="_blank" rel="noopener">Ads Knowledge <span aria-hidden="true">↗</span></a>
+        </section>
+
+        <p class="signoff">Thanks for scrolling this far.</p>
+    </main>
+
+    <dialog class="lightbox" aria-label="Enlarged image"><img alt=""></dialog>
+
+    <script>
+        // Click a screenshot to see it full size; click anywhere to close.
+        (function () {
+            var dlg = document.querySelector('.lightbox');
+            if (!dlg.showModal) return;
+            var big = dlg.querySelector('img');
+            document.querySelectorAll('[data-zoom]').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var img = btn.querySelector('img');
+                    big.src = img.currentSrc || img.src;
+                    big.alt = img.alt;
+                    dlg.showModal();
+                });
+            });
+            dlg.addEventListener('click', function () { dlg.close(); });
+        })();
+
+        // "See the solution": unfold the write-up under the puzzle.
+        (function () {
+            var btn = document.querySelector('.reveal-btn');
+            var sol = document.getElementById('solution');
+            var label = btn.firstChild;
+            btn.addEventListener('click', function () {
+                var open = btn.getAttribute('aria-expanded') !== 'true';
+                btn.setAttribute('aria-expanded', String(open));
+                sol.hidden = !open;
+                label.textContent = open ? 'Hide the solution ' : 'See the solution & how I got there ';
+                if (!open) return;
+                sol.classList.remove('opening');
+                void sol.offsetWidth;
+                sol.classList.add('opening');
+                var still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+                sol.scrollIntoView({ behavior: still ? 'auto' : 'smooth', block: 'start' });
+            });
+        })();
+    </script>
+
+    <script>
+        // Analytics: one readable "link_click" event per tracked link, plus a
+        // one-time "section_view" when a section first scrolls into view.
+        (function () {
+            if (typeof gtag !== 'function') return;
+            document.addEventListener('click', function (e) {
+                var a = e.target.closest('[data-track]');
+                if (!a) return;
+                gtag('event', 'link_click', {
+                    link_name: a.dataset.track,
+                    link_section: a.dataset.section || '',
+                    link_url: a.href,
+                    transport_type: 'beacon'
+                });
+            });
+            if (!('IntersectionObserver' in window)) return;
+            var seen = new IntersectionObserver(function (entries) {
+                entries.forEach(function (en) {
+                    if (!en.isIntersecting) return;
+                    gtag('event', 'section_view', { section_name: en.target.dataset.view });
+                    seen.unobserve(en.target);
+                });
+            }, { threshold: 0.4 });
+            document.querySelectorAll('[data-view]').forEach(function (el) { seen.observe(el); });
+        })();
+    </script>
+</body>
+</html>
