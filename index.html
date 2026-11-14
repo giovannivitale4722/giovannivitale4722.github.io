@@ -444,9 +444,6 @@
 
         .px.lit::after { opacity: 1; }
 
-        /* While the cube spins, frames are painted directly with no easing. */
-        .grid.live .px::after { transition: none; }
-
         @keyframes px-in { from { transform: scale(0); } }
         @keyframes breathe { 50% { opacity: 0.45; } }
 
@@ -541,7 +538,7 @@
             <div class="exp" id="experience" aria-labelledby="exp" data-view="experience">
                 <div class="sec-head">
                     <h2 id="exp">Experience</h2>
-                    <span class="mono hint">hover a row →</span>
+                    <span class="mono hint">hover over a row →</span>
                 </div>
                 <div class="xp" data-draw="stripe" style="--c:#635bff"><span class="yr mono">2027</span><span class="co">Stripe <span class="tag">incoming · winter</span></span><span class="role">Software Engineer Intern</span></div>
                 <div class="xp" data-draw="google" style="--c:#4285f4"><span class="yr mono">2027</span><span class="co">Google <span class="tag">incoming · summer</span></span><span class="role">Software Engineer Intern</span></div>
@@ -621,10 +618,10 @@
         // The pixel stage: hovering anything in the hero with data-draw redraws the grid,
         // rippling outward from the centre of the new drawing.
         (function () {
-            var GLYPHS = {"sbu":{"rows":["................................","........ssssssswssswwsssww......","....ssssssssssswssswwssswwss....","..ssssssssssssswssswwssswwsss...","..ssssssssssssswssswsssswssss...","..ssssssssssssswssswssswwssss...","..ssssssssssssswsswwssswwsss....","..ssssssssssssswsswwssswwsss....","..sssssswsssssswsswwssswssssw...","..ssssswwsssssswsswwsswwsssww...","..ssssswwwssssswsswwsswwsssw....","..sswwwwwwwwssswsswssswwsssw....","..ssswwwwwwsssswsswssswssswws...","..sssswwwwssssswsswssswsssws....","..sssswwwwwsssswsswsswwsswws....","..ssswwssswsssswsswsswwsswws....","..ssssssssssssswswwsswssswss....","...sssssssssssswswwsswsswws.....","...sssssssssssswswsswwsswss.....","...sssssssssssssswsswssswss.....","....ssssssssssssswsswsswws......","....ssssssssssssswsswsswss......",".....sssssssssssswsswssws.......","......ssssssssssswswssws........",".......sssssssssswswssw.........",".......sssssssssssswssw.........","........sssssssswsswsw..........","..........sssssswsws............","...........ssssswsw.............",".............sssw...............","................................","................................"],"pal":{"s":"#8f2727","w":"#ffffff"}},"amazon":{"rows":["................................","................................","............kkkkkk..............","..........kkkkkkkkkk............",".........kkkkkkkkkkkk...........","........kkkkkkkkkkkkkk..........",".......kkkkkk....kkkkk..........",".......kkkkk.....kkkkk..........",".........kkk.....kkkkk..........",".................kkkkk..........","..............kkkkkkkk..........","..........kkkkkkkkkkkk..........",".........kkkkkkkkkkkkk..........","........kkkkkk...kkkkk..........",".......kkkkkk....kkkkk..........",".......kkkkk.....kkkkk..........",".......kkkkk.....kkkkk..........",".......kkkkk.....kkkkkk.........",".......kkkkk....kkkkkkk.........",".......kkkkkkkkkkkkkkkkk........",".......kkkkkkkkkkkkkkkkk........","........kkkkkkkkk..kkk..........","..........kkkkk.....k...........","........................oooo....","...o.......................o....","....oo...................o.o....",".....ooo..............ooo.......",".......oooooo.....ooooo...o.....","........oooooooooooooo..........","...........oooooooo.............","................................","................................"],"pal":{"k":"#1b1b1b","o":"#ff9900"}},"acadia":{"rows":["................................","...............bb...............","...............bb...............","...............bb...............","..............bbbb..............",".............bbbbbb.............","............bbbbbbbbb...........","...........bbbbbbbbbbb..........","...........byybyybyyb...........","...........byybyybyyb...........","...........bbbbbbbbbb...........","...........byybyybyyb...........","...........byybyybyyb...........","...........bbbbbbbbbb...........","..........bbbbbbbbbbbb..........","................................","...........bbbbbbbbbb...........","...........bbbbbbbbbb...........","...........bbbbwwbbbb...........","...........bbbbwwbbbb...........","...........bbbbwwbbbb...........","...........bbbbbbbbbbb..........","..........bbbbbbbbbbbb..........","..........bbbbbbbbbbbb..........","..........bbbbbbbbbbbb..........","..........bbbbbbbbbbbb..........","..........bbbbbbbbbbbb..........","..........bbwwwwwwwwbb..........","...........bbbbbbbbb............","........bbbbbbbbbbbbbbbb........","......bbbbbbbbbbbbbbbbbbbb......","................................"],"pal":{"b":"#1f5aa6","y":"#ffc61a","w":"#ffffff"}},"ibm":{"rows":["................................","................................","................................","................................","................................","................................","................................","................................",".bbbbb..bbbbbbbb...bbbb....bbbb.","................................","..bbb....bbb..bbb...bbbbbbbbbb..","................................","..bbb....bbb..bbb...bbb.bb.bbb..","................................","..bbb....bbbbbb.....bbb....bbb..","................................","..bbb....bbb..bbb...bbb....bbb..","................................","..bbb....bbb..bbb...bbb....bbb..","................................","..bbb....bbb.bbbb...bbb....bbb..","................................",".bbbbb..bbbbbbbb...bbbbb..bbbbb.","................................","................................","................................","................................","................................","................................","................................","................................","................................"],"pal":{"b":"#0f62fe"}},"stripe":{"rows":["................................","................................","......pppppppppppppppppppp......","....pppppppppppppppppppppppp....","...pppppppppppppppppppppppppp...","...pppppppppppppppppppppppppp...","..ppppppppppwwwwwwwppppppppppp..","..ppppppppwwwwwwwwwwwppppppppp..","..pppppppwwwwwwwwwwwwwpppppppp..","..ppppppwwwwwwppwwwwwwwppppppp..","..ppppppwwwwwppppwwwwwwppppppp..","..ppppppwwwwwpppppwwwwwppppppp..","..ppppppwwwwwwwwpppppppppppppp..","..ppppppwwwwwwwwwwwwpppppppppp..","..pppppppwwwwwwwwwwwwwpppppppp..","..ppppppppwwwwwwwwwwwwwppppppp..","..ppppppppppwwwwwwwwwwwppppppp..","..ppppppppppppppwwwwwwwwpppppp..","..ppppppwwwwppppppwwwwwwpppppp..","..pppppwwwwwwpppppwwwwwwpppppp..","..pppppwwwwwwpppppwwwwwwpppppp..","..ppppppwwwwwwwwwwwwwwwppppppp..","..ppppppwwwwwwwwwwwwwwwppppppp..","..pppppppwwwwwwwwwwwwppppppppp..","..pppppppppwwwwwwwwppppppppppp..","..pppppppppppppppppppppppppppp..","...pppppppppppppppppppppppppp...","...pppppppppppppppppppppppppp...","....pppppppppppppppppppppppp....","......pppppppppppppppppppp......","................................","................................"],"pal":{"p":"#635bff","w":"#ffffff"}},"google":{"rows":["................................","..........rrrrrrrrrr............","........rrrrrrrrrrrrrr..........","......rrrrrrrrrrrrrrrrrr........",".....rrrrrrrrrrrrrrrrrrrr.......","....rrrrrrrrrrrrrrrrrrrrrr......","...yyrrrrrrr......rrrrrr........","...yyyrrrr..........rrr.........","..yyyyyrr............r..........","..yyyyyy........................",".yyyyyy.........................",".yyyyyy.........................",".yyyyy..........................",".yyyyy.........bbbbbbbbbbbbbb...",".yyyyy.........bbbbbbbbbbbbbb...",".yyyyy.........bbbbbbbbbbbbbbb..",".yyyyy.........bbbbbbbbbbbbbbb..",".yyyyy.........bbbbbbbbbbbbbb...",".yyyyyy................bbbbbb...",".yyyyyy................bbbbbb...","..yyyyyy..............bbbbbb....","..yyyyygg............bbbbbbb....","...yyygggg..........ggbbbbb.....","...yyggggggg......gggggbbbb.....","....ggggggggggggggggggggbb......",".....gggggggggggggggggggg.......","......gggggggggggggggggg........","........gggggggggggggg..........","..........gggggggggg............",".............gggg...............","................................","................................"],"pal":{"r":"#ea4335","y":"#fbbc05","g":"#34a853","b":"#4285f4"}},"puzzles":{"rows":["................................","................................","...........qq...................",".........qqqqqq.................","........qqqqqqqq................","........qqqqqqqq................","........qqqqqqqq................","........qqqqqqqq................","........qqqqqqqq................","..qqqqqqqqqqqqqqqqqqqq..........","..qqQQQQQqqqqqqqqqqqqq..........","..qqQQqqqqqqqqqqqqqqqq..........","..qqQQqqqqqqqqqqqqqqqq..........","..qqQQqqqqqqqqqqqqqqqq..........","..qqQQqqqqqqqqqqqqqqqq..........","...qqqqqqqqqqqqqqqqqqq.qqqq.....",".....qqqqqqqqqqqqqqqqqqqqqqq....","......qqqqqqqqqqqqqqqqqqqqqqq...","......qqqqqqqqqqqqqqqqqqqqqqq...","......qqqqqqqqqqqqqqqqqqqqqqq...","......qqqqqqqqqqqqqqqqqqqqqqq...",".....qqqqqqqqqqqqqqqqqqqqqqq....","....qqqqqqqqqqqqqqqqqq.qqqq.....","..qqqqqqqqqqqqqqqqqqqq..........","..qqqqqqqqqqqqqqqqqqqq..........","..qqqqqqqqqqqqqqqqqqqq..........","..qqqqqqq......qqqqqqq..........","..qqqqqqq......qqqqqqq..........","..qqqqqq........qqqqqq..........","................................","................................","................................"],"pal":{"q":"#8a63d8","Q":"#c8b4f4"}}};
+            var GLYPHS = {"sbu":{"rows":["................................","................................",".........ssssssswssswwsssww.....",".....ssssssssssswssswwssswwss...","...ssssssssssssswssswwssswwsss..","...ssssssssssssswssswsssswssss..","...ssssssssssssswssswssswwssss..","...ssssssssssssswsswwssswwsss...","...ssssssssssssswsswwssswwsss...","...sssssswsssssswsswwssswssssw..","...ssssswwsssssswsswwsswwsssww..","...ssssswwwssssswsswwsswwsssw...","...sswwwwwwwwssswsswssswwsssw...","...ssswwwwwwsssswsswssswssswws..","...sssswwwwssssswsswssswsssws...","...sssswwwwwsssswsswsswwsswws...","...ssswwssswsssswsswsswwsswws...","...ssssssssssssswswwsswssswss...","....sssssssssssswswwsswsswws....","....sssssssssssswswsswwsswss....","....sssssssssssssswsswssswss....",".....ssssssssssssswsswsswws.....",".....ssssssssssssswsswsswss.....","......sssssssssssswsswssws......",".......ssssssssssswswssws.......","........sssssssssswswssw........","........sssssssssssswssw........",".........sssssssswsswsw.........","...........sssssswsws...........","............ssssswsw............","..............sssw..............","................................"],"pal":{"s":"#8f2727","w":"#ffffff"}},"amazon":{"rows":["................................","................................",".............kkkkkk.............","...........kkkkkkkkkk...........","..........kkkkkkkkkkkk..........",".........kkkkkkkkkkkkkk.........","........kkkkkk....kkkkk.........","........kkkkk.....kkkkk.........","..........kkk.....kkkkk.........","..................kkkkk.........","...............kkkkkkkk.........","...........kkkkkkkkkkkk.........","..........kkkkkkkkkkkkk.........",".........kkkkkk...kkkkk.........","........kkkkkk....kkkkk.........","........kkkkk.....kkkkk.........","........kkkkk.....kkkkk.........","........kkkkk.....kkkkkk........","........kkkkk....kkkkkkk........","........kkkkkkkkkkkkkkkkk.......","........kkkkkkkkkkkkkkkkk.......",".........kkkkkkkkk..kkk.........","...........kkkkk.....k..........",".........................oooo...","....o.......................o...",".....oo...................o.o...","......ooo..............ooo......","........oooooo.....ooooo...o....",".........oooooooooooooo.........","............oooooooo............","................................","................................"],"pal":{"k":"#1b1b1b","o":"#ff9900"}},"acadia":{"rows":["................................","...............bb...............","...............bb...............","...............bb...............","..............bbbb..............",".............bbbbbb.............","............bbbbbbbbb...........","...........bbbbbbbbbbb..........","...........byybyybyyb...........","...........byybyybyyb...........","...........bbbbbbbbbb...........","...........byybyybyyb...........","...........byybyybyyb...........","...........bbbbbbbbbb...........","..........bbbbbbbbbbbb..........","................................","...........bbbbbbbbbb...........","...........bbbbbbbbbb...........","...........bbbbwwbbbb...........","...........bbbbwwbbbb...........","...........bbbbwwbbbb...........","...........bbbbbbbbbbb..........","..........bbbbbbbbbbbb..........","..........bbbbbbbbbbbb..........","..........bbbbbbbbbbbb..........","..........bbbbbbbbbbbb..........","..........bbbbbbbbbbbb..........","..........bbwwwwwwwwbb..........","...........bbbbbbbbb............","........bbbbbbbbbbbbbbbb........","......bbbbbbbbbbbbbbbbbbbb......","................................"],"pal":{"b":"#1f5aa6","y":"#ffc61a","w":"#ffffff"}},"ibm":{"rows":["................................","................................","................................","................................","................................","................................","................................","................................",".bbbbb..bbbbbbbb...bbbb....bbbb.","................................","..bbb....bbb..bbb...bbbbbbbbbb..","................................","..bbb....bbb..bbb...bbb.bb.bbb..","................................","..bbb....bbbbbb.....bbb....bbb..","................................","..bbb....bbb..bbb...bbb....bbb..","................................","..bbb....bbb..bbb...bbb....bbb..","................................","..bbb....bbb.bbbb...bbb....bbb..","................................",".bbbbb..bbbbbbbb...bbbbb..bbbbb.","................................","................................","................................","................................","................................","................................","................................","................................","................................"],"pal":{"b":"#0f62fe"}},"stripe":{"rows":["................................","................................","......pppppppppppppppppppp......","....pppppppppppppppppppppppp....","...pppppppppppppppppppppppppp...","...pppppppppppppppppppppppppp...","..ppppppppppwwwwwwwppppppppppp..","..ppppppppwwwwwwwwwwwppppppppp..","..pppppppwwwwwwwwwwwwwpppppppp..","..ppppppwwwwwwppwwwwwwwppppppp..","..ppppppwwwwwppppwwwwwwppppppp..","..ppppppwwwwwpppppwwwwwppppppp..","..ppppppwwwwwwwwpppppppppppppp..","..ppppppwwwwwwwwwwwwpppppppppp..","..pppppppwwwwwwwwwwwwwpppppppp..","..ppppppppwwwwwwwwwwwwwppppppp..","..ppppppppppwwwwwwwwwwwppppppp..","..ppppppppppppppwwwwwwwwpppppp..","..ppppppwwwwppppppwwwwwwpppppp..","..pppppwwwwwwpppppwwwwwwpppppp..","..pppppwwwwwwpppppwwwwwwpppppp..","..ppppppwwwwwwwwwwwwwwwppppppp..","..ppppppwwwwwwwwwwwwwwwppppppp..","..pppppppwwwwwwwwwwwwppppppppp..","..pppppppppwwwwwwwwppppppppppp..","..pppppppppppppppppppppppppppp..","...pppppppppppppppppppppppppp...","...pppppppppppppppppppppppppp...","....pppppppppppppppppppppppp....","......pppppppppppppppppppp......","................................","................................"],"pal":{"p":"#635bff","w":"#ffffff"}},"google":{"rows":["................................","................................","...........rrrrrrrrrr...........",".........rrrrrrrrrrrrrr.........",".......rrrrrrrrrrrrrrrrrr.......","......rrrrrrrrrrrrrrrrrrrr......",".....rrrrrrrrrrrrrrrrrrrrrr.....","....yyrrrrrrr......rrrrrr.......","....yyyrrrr..........rrr........","...yyyyyrr............r.........","...yyyyyy.......................","..yyyyyy........................","..yyyyyy........................","..yyyyy.........................","..yyyyy.........bbbbbbbbbbbbbb..","..yyyyy.........bbbbbbbbbbbbbb..","..yyyyy.........bbbbbbbbbbbbbbb.","..yyyyy.........bbbbbbbbbbbbbbb.","..yyyyy.........bbbbbbbbbbbbbb..","..yyyyyy................bbbbbb..","..yyyyyy................bbbbbb..","...yyyyyy..............bbbbbb...","...yyyyygg............bbbbbbb...","....yyygggg..........ggbbbbb....","....yyggggggg......gggggbbbb....",".....ggggggggggggggggggggbb.....","......gggggggggggggggggggg......",".......gggggggggggggggggg.......",".........gggggggggggggg.........","...........gggggggggg...........","..............gggg..............","................................"],"pal":{"r":"#ea4335","y":"#fbbc05","g":"#34a853","b":"#4285f4"}},"puzzles":{"rows":["................................","................................","...........qq...................",".........qqqqqq.................","........qqqqqqqq................","........qqqqqqqq................","........qqqqqqqq................","........qqqqqqqq................","........qqqqqqqq................","..qqqqqqqqqqqqqqqqqqqq..........","..qqQQQQQqqqqqqqqqqqqq..........","..qqQQqqqqqqqqqqqqqqqq..........","..qqQQqqqqqqqqqqqqqqqq..........","..qqQQqqqqqqqqqqqqqqqq..........","..qqQQqqqqqqqqqqqqqqqq..........","...qqqqqqqqqqqqqqqqqqq.qqqq.....",".....qqqqqqqqqqqqqqqqqqqqqqq....","......qqqqqqqqqqqqqqqqqqqqqqq...","......qqqqqqqqqqqqqqqqqqqqqqq...","......qqqqqqqqqqqqqqqqqqqqqqq...","......qqqqqqqqqqqqqqqqqqqqqqq...",".....qqqqqqqqqqqqqqqqqqqqqqq....","....qqqqqqqqqqqqqqqqqq.qqqq.....","..qqqqqqqqqqqqqqqqqqqq..........","..qqqqqqqqqqqqqqqqqqqq..........","..qqqqqqqqqqqqqqqqqqqq..........","..qqqqqqq......qqqqqqq..........","..qqqqqqq......qqqqqqq..........","..qqqqqq........qqqqqq..........","................................","................................","................................"],"pal":{"q":"#8a63d8","Q":"#c8b4f4"}}};
 
             var CAPTIONS = {
-                home:    { fig: 'home',        text: 'hover the colourful words',                 c: '#2f9e74' },
+                home:    { fig: 'home',        text: 'hover over the colourful words',                 c: '#2f9e74' },
                 puzzles: { fig: 'puzzles',     text: 'the thing I do for fun',                    c: '#8a63d8' },
                 sbu:     { fig: 'stony brook', text: 'Stony Brook University · CS & Math',        c: '#8f2727' },
                 ibm:     { fig: 'ibm',         text: 'IBM · Software Engineer Intern · 2026',     c: '#0f62fe' },
@@ -686,7 +683,7 @@
                 );
             }
 
-            // ---- Home: a scrambled cube, spinning in 3D, rasterised onto the grid each frame ----
+            // ---- Home: a scrambled cube, drawn in 3D from a fixed three-quarter view ----
             var CUBE_COLORS = {
                 j: [47, 158, 116], o: [240, 138, 60], y: [242, 193, 78],
                 v: [138, 99, 216], r: [226, 87, 76], b: [74, 143, 217]
@@ -715,8 +712,9 @@
                 return 'rgb(' + Math.round(rgb[0] * k) + ',' + Math.round(rgb[1] * k) + ',' + Math.round(rgb[2] * k) + ')';
             }
 
-            function cubeFrame(t) {
-                var ry = t * 0.55, rx = 0.5 + Math.sin(t * 0.37) * 0.12;
+            var CUBE_YAW = Math.PI / 4, CUBE_TILT = 0.58;   // 45° turn shows both sides evenly; tilt shows the top
+
+            function cubeFrame(ry, rx) {
                 var faces = [];
                 FACES.forEach(function (f) {
                     var n = rotate(f.n, ry, rx);
@@ -745,40 +743,8 @@
                 return out;
             }
 
-            var spin = { raf: 0, t0: 0, last: 0, offset: 0, visible: true };
-
-            function spinLoop(now) {
-                spin.raf = requestAnimationFrame(spinLoop);
-                if (!spin.visible || now - spin.last < 50) return;   // ~20 fps: chunky, pixel-art pacing
-                spin.last = now;
-                var frame = cubeFrame(spin.offset + (now - spin.t0) / 1000);
-                cells.forEach(function (cell, i) {
-                    if (cell.color !== frame[i]) paint(cell, frame[i], 0, 0);
-                });
-            }
-
-            function startSpin() {
-                if (spin.raf || still) return;
-                grid.classList.add('live');
-                spin.t0 = performance.now();
-                spin.raf = requestAnimationFrame(spinLoop);
-            }
-
-            function stopSpin() {
-                if (!spin.raf) return;
-                cancelAnimationFrame(spin.raf);
-                spin.raf = 0;
-                spin.offset += (performance.now() - spin.t0) / 1000;  // resume from the same angle next time
-                grid.classList.remove('live');
-            }
-
-            // Pause the spin while the grid is scrolled out of view.
-            if ('IntersectionObserver' in window) {
-                new IntersectionObserver(function (es) { spin.visible = es[0].isIntersecting; }).observe(grid);
-            }
-
             function colorsFor(name) {
-                if (name === 'home') return cubeFrame(spin.offset);
+                if (name === 'home') return cubeFrame(CUBE_YAW, CUBE_TILT);
                 var g = GLYPHS[name];
                 return cells.map(function (cell) {
                     var ch = g.rows[cell.r][cell.c];
@@ -801,7 +767,6 @@
                 current = name;
                 caption(name);
                 clearTimeout(phase);
-                stopSpin();
 
                 // 1. Erase: lit pixels fade out, closing in on the old drawing's centre.
                 var lit = cells.filter(function (cell) { return cell.color; });
@@ -817,15 +782,12 @@
                 // 2. Draw: the new drawing ripples outward from its own centre.
                 phase = setTimeout(function () {
                     var next = colorsFor(name);
-                    var c0 = centre(next), reach = 0;
+                    var c0 = centre(next);
                     cells.forEach(function (cell, i) {
                         if (!next[i]) return;
                         var dist = Math.hypot(cell.r - c0[0], cell.c - c0[1]);
-                        reach = Math.max(reach, dist);
                         paint(cell, next[i], still ? 0 : dist * DRAW_STEP, 0.45);
                     });
-                    // Once the cube has fully drawn in, let it start spinning.
-                    if (name === 'home') phase = setTimeout(startSpin, reach * DRAW_STEP + DRAW_FADE + 150);
                 }, wait);
             }
 
