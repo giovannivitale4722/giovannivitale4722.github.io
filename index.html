@@ -402,50 +402,15 @@
             margin-bottom: 14px;
         }
 
+        /* The whole 32x32 grid is drawn on one canvas (see the pixel-stage script):
+           far cheaper than animating 1,024 separate elements. */
         .grid {
-            --n: 32;
-            display: grid;
-            grid-template-columns: repeat(var(--n), 1fr);
-            gap: clamp(2px, 0.22vw, 3px);
+            position: relative;
             width: 100%;
             aspect-ratio: 1;
         }
 
-        /* Each pixel is two layers:
-           ::before  the empty tile, breathing in a slow diagonal wave that never restarts,
-                     so a pixel that has just been cleared is exactly in step with its neighbours;
-           ::after   the lit colour, which only ever fades in and out on top. */
-        .px {
-            --in: 0ms;
-            --d: 0s;
-            --t: 0ms;
-            position: relative;
-            border-radius: 30%;
-            animation: px-in 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) var(--in) both;
-        }
-
-        .px::before, .px::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-        }
-
-        .px::before {
-            background: var(--px-off);
-            animation: breathe 4.2s ease-in-out var(--d) infinite;
-        }
-
-        .px::after {
-            background: var(--on, transparent);
-            opacity: 0;
-            transition: opacity 0.2s ease var(--t);
-        }
-
-        .px.lit::after { opacity: 1; }
-
-        @keyframes px-in { from { transform: scale(0); } }
-        @keyframes breathe { 50% { opacity: 0.45; } }
+        .grid canvas { display: block; width: 100%; height: 100%; }
 
         .stage-cap {
             display: flex;
@@ -618,7 +583,7 @@
         // The pixel stage: hovering anything in the hero with data-draw redraws the grid,
         // rippling outward from the centre of the new drawing.
         (function () {
-            var GLYPHS = {"sbu":{"rows":["................................","................................",".........ssssssswssswwsssww.....",".....ssssssssssswssswwssswwss...","...ssssssssssssswssswwssswwsss..","...ssssssssssssswssswsssswssss..","...ssssssssssssswssswssswwssss..","...ssssssssssssswsswwssswwsss...","...ssssssssssssswsswwssswwsss...","...sssssswsssssswsswwssswssssw..","...ssssswwsssssswsswwsswwsssww..","...ssssswwwssssswsswwsswwsssw...","...sswwwwwwwwssswsswssswwsssw...","...ssswwwwwwsssswsswssswssswws..","...sssswwwwssssswsswssswsssws...","...sssswwwwwsssswsswsswwsswws...","...ssswwssswsssswsswsswwsswws...","...ssssssssssssswswwsswssswss...","....sssssssssssswswwsswsswws....","....sssssssssssswswsswwsswss....","....sssssssssssssswsswssswss....",".....ssssssssssssswsswsswws.....",".....ssssssssssssswsswsswss.....","......sssssssssssswsswssws......",".......ssssssssssswswssws.......","........sssssssssswswssw........","........sssssssssssswssw........",".........sssssssswsswsw.........","...........sssssswsws...........","............ssssswsw............","..............sssw..............","................................"],"pal":{"s":"#8f2727","w":"#ffffff"}},"amazon":{"rows":["................................","................................",".............kkkkkk.............","...........kkkkkkkkkk...........","..........kkkkkkkkkkkk..........",".........kkkkkkkkkkkkkk.........","........kkkkkk....kkkkk.........","........kkkkk.....kkkkk.........","..........kkk.....kkkkk.........","..................kkkkk.........","...............kkkkkkkk.........","...........kkkkkkkkkkkk.........","..........kkkkkkkkkkkkk.........",".........kkkkkk...kkkkk.........","........kkkkkk....kkkkk.........","........kkkkk.....kkkkk.........","........kkkkk.....kkkkk.........","........kkkkk.....kkkkkk........","........kkkkk....kkkkkkk........","........kkkkkkkkkkkkkkkkk.......","........kkkkkkkkkkkkkkkkk.......",".........kkkkkkkkk..kkk.........","...........kkkkk.....k..........",".........................oooo...","....o.......................o...",".....oo...................o.o...","......ooo..............ooo......","........oooooo.....ooooo...o....",".........oooooooooooooo.........","............oooooooo............","................................","................................"],"pal":{"k":"#1b1b1b","o":"#ff9900"}},"acadia":{"rows":["................................","...............bb...............","...............bb...............","...............bb...............","..............bbbb..............",".............bbbbbb.............","............bbbbbbbbb...........","...........bbbbbbbbbbb..........","...........byybyybyyb...........","...........byybyybyyb...........","...........bbbbbbbbbb...........","...........byybyybyyb...........","...........byybyybyyb...........","...........bbbbbbbbbb...........","..........bbbbbbbbbbbb..........","................................","...........bbbbbbbbbb...........","...........bbbbbbbbbb...........","...........bbbbwwbbbb...........","...........bbbbwwbbbb...........","...........bbbbwwbbbb...........","...........bbbbbbbbbbb..........","..........bbbbbbbbbbbb..........","..........bbbbbbbbbbbb..........","..........bbbbbbbbbbbb..........","..........bbbbbbbbbbbb..........","..........bbbbbbbbbbbb..........","..........bbwwwwwwwwbb..........","...........bbbbbbbbb............","........bbbbbbbbbbbbbbbb........","......bbbbbbbbbbbbbbbbbbbb......","................................"],"pal":{"b":"#1f5aa6","y":"#ffc61a","w":"#ffffff"}},"ibm":{"rows":["................................","................................","................................","................................","................................","................................","................................","................................",".bbbbb..bbbbbbbb...bbbb....bbbb.","................................","..bbb....bbb..bbb...bbbbbbbbbb..","................................","..bbb....bbb..bbb...bbb.bb.bbb..","................................","..bbb....bbbbbb.....bbb....bbb..","................................","..bbb....bbb..bbb...bbb....bbb..","................................","..bbb....bbb..bbb...bbb....bbb..","................................","..bbb....bbb.bbbb...bbb....bbb..","................................",".bbbbb..bbbbbbbb...bbbbb..bbbbb.","................................","................................","................................","................................","................................","................................","................................","................................","................................"],"pal":{"b":"#0f62fe"}},"stripe":{"rows":["................................","................................","......pppppppppppppppppppp......","....pppppppppppppppppppppppp....","...pppppppppppppppppppppppppp...","...pppppppppppppppppppppppppp...","..ppppppppppwwwwwwwppppppppppp..","..ppppppppwwwwwwwwwwwppppppppp..","..pppppppwwwwwwwwwwwwwpppppppp..","..ppppppwwwwwwppwwwwwwwppppppp..","..ppppppwwwwwppppwwwwwwppppppp..","..ppppppwwwwwpppppwwwwwppppppp..","..ppppppwwwwwwwwpppppppppppppp..","..ppppppwwwwwwwwwwwwpppppppppp..","..pppppppwwwwwwwwwwwwwpppppppp..","..ppppppppwwwwwwwwwwwwwppppppp..","..ppppppppppwwwwwwwwwwwppppppp..","..ppppppppppppppwwwwwwwwpppppp..","..ppppppwwwwppppppwwwwwwpppppp..","..pppppwwwwwwpppppwwwwwwpppppp..","..pppppwwwwwwpppppwwwwwwpppppp..","..ppppppwwwwwwwwwwwwwwwppppppp..","..ppppppwwwwwwwwwwwwwwwppppppp..","..pppppppwwwwwwwwwwwwppppppppp..","..pppppppppwwwwwwwwppppppppppp..","..pppppppppppppppppppppppppppp..","...pppppppppppppppppppppppppp...","...pppppppppppppppppppppppppp...","....pppppppppppppppppppppppp....","......pppppppppppppppppppp......","................................","................................"],"pal":{"p":"#635bff","w":"#ffffff"}},"google":{"rows":["................................","................................","...........rrrrrrrrrr...........",".........rrrrrrrrrrrrrr.........",".......rrrrrrrrrrrrrrrrrr.......","......rrrrrrrrrrrrrrrrrrrr......",".....rrrrrrrrrrrrrrrrrrrrrr.....","....yyrrrrrrr......rrrrrr.......","....yyyrrrr..........rrr........","...yyyyyrr............r.........","...yyyyyy.......................","..yyyyyy........................","..yyyyyy........................","..yyyyy.........................","..yyyyy.........bbbbbbbbbbbbbb..","..yyyyy.........bbbbbbbbbbbbbb..","..yyyyy.........bbbbbbbbbbbbbbb.","..yyyyy.........bbbbbbbbbbbbbbb.","..yyyyy.........bbbbbbbbbbbbbb..","..yyyyyy................bbbbbb..","..yyyyyy................bbbbbb..","...yyyyyy..............bbbbbb...","...yyyyygg............bbbbbbb...","....yyygggg..........ggbbbbb....","....yyggggggg......gggggbbbb....",".....ggggggggggggggggggggbb.....","......gggggggggggggggggggg......",".......gggggggggggggggggg.......",".........gggggggggggggg.........","...........gggggggggg...........","..............gggg..............","................................"],"pal":{"r":"#ea4335","y":"#fbbc05","g":"#34a853","b":"#4285f4"}},"puzzles":{"rows":["................................","................................","...........qq...................",".........qqqqqq.................","........qqqqqqqq................","........qqqqqqqq................","........qqqqqqqq................","........qqqqqqqq................","........qqqqqqqq................","..qqqqqqqqqqqqqqqqqqqq..........","..qqQQQQQqqqqqqqqqqqqq..........","..qqQQqqqqqqqqqqqqqqqq..........","..qqQQqqqqqqqqqqqqqqqq..........","..qqQQqqqqqqqqqqqqqqqq..........","..qqQQqqqqqqqqqqqqqqqq..........","...qqqqqqqqqqqqqqqqqqq.qqqq.....",".....qqqqqqqqqqqqqqqqqqqqqqq....","......qqqqqqqqqqqqqqqqqqqqqqq...","......qqqqqqqqqqqqqqqqqqqqqqq...","......qqqqqqqqqqqqqqqqqqqqqqq...","......qqqqqqqqqqqqqqqqqqqqqqq...",".....qqqqqqqqqqqqqqqqqqqqqqq....","....qqqqqqqqqqqqqqqqqq.qqqq.....","..qqqqqqqqqqqqqqqqqqqq..........","..qqqqqqqqqqqqqqqqqqqq..........","..qqqqqqqqqqqqqqqqqqqq..........","..qqqqqqq......qqqqqqq..........","..qqqqqqq......qqqqqqq..........","..qqqqqq........qqqqqq..........","................................","................................","................................"],"pal":{"q":"#8a63d8","Q":"#c8b4f4"}}};
+            var GLYPHS = {"sbu":{"rows":["................................","................................",".........ssssssswssswwsssww.....",".....ssssssssssswssswwssswwss...","...ssssssssssssswssswwssswwsss..","...ssssssssssssswssswsssswssss..","...ssssssssssssswssswssswwssss..","...ssssssssssssswsswwssswwsss...","...ssssssssssssswsswwssswwsss...","...sssssswsssssswsswwssswssssw..","...ssssswwsssssswsswwsswwsssww..","...ssssswwwssssswsswwsswwsssw...","...sswwwwwwwwssswsswssswwsssw...","...ssswwwwwwsssswsswssswssswws..","...sssswwwwssssswsswssswsssws...","...sssswwwwwsssswsswsswwsswws...","...ssswwssswsssswsswsswwsswws...","...ssssssssssssswswwsswssswss...","....sssssssssssswswwsswsswws....","....sssssssssssswswsswwsswss....","....sssssssssssssswsswssswss....",".....ssssssssssssswsswsswws.....",".....ssssssssssssswsswsswss.....","......sssssssssssswsswssws......",".......ssssssssssswswssws.......","........sssssssssswswssw........","........sssssssssssswssw........",".........sssssssswsswsw.........","...........sssssswsws...........","............ssssswsw............","..............sssw..............","................................"],"pal":{"s":"#8f2727","w":"#ffffff"}},"amazon":{"rows":["................................","................................",".............kkkkkk.............","...........kkkkkkkkkk...........","..........kkkkkkkkkkkk..........",".........kkkkkkkkkkkkkk.........","........kkkkkk....kkkkk.........","........kkkkk.....kkkkk.........","..........kkk.....kkkkk.........","..................kkkkk.........","...............kkkkkkkk.........","...........kkkkkkkkkkkk.........","..........kkkkkkkkkkkkk.........",".........kkkkkk...kkkkk.........","........kkkkkk....kkkkk.........","........kkkkk.....kkkkk.........","........kkkkk.....kkkkk.........","........kkkkk.....kkkkkk........","........kkkkk....kkkkkkk........","........kkkkkkkkkkkkkkkkk.......","........kkkkkkkkkkkkkkkkk.......",".........kkkkkkkkk..kkk.........","...........kkkkk.....k..........",".........................oooo...","....o.......................o...",".....oo...................o.o...","......ooo..............ooo......","........oooooo.....ooooo...o....",".........oooooooooooooo.........","............oooooooo............","................................","................................"],"pal":{"k":"#1b1b1b","o":"#ff9900"}},"acadia":{"rows":["................................","...............bb...............","...............bb...............","...............bb...............","..............bbbb..............",".............bbbbbb.............","............bbbbbbbbb...........","...........bbbbbbbbbbb..........","...........byybyybyyb...........","...........byybyybyyb...........","...........bbbbbbbbbb...........","...........byybyybyyb...........","...........byybyybyyb...........","...........bbbbbbbbbb...........","..........bbbbbbbbbbbb..........","................................","...........bbbbbbbbbb...........","...........bbbbbbbbbb...........","...........bbbbwwbbbb...........","...........bbbbwwbbbb...........","...........bbbbwwbbbb...........","...........bbbbbbbbbbb..........","..........bbbbbbbbbbbb..........","..........bbbbbbbbbbbb..........","..........bbbbbbbbbbbb..........","..........bbbbbbbbbbbb..........","..........bbbbbbbbbbbb..........","..........bbwwwwwwwwbb..........","...........bbbbbbbbb............","........bbbbbbbbbbbbbbbb........","......bbbbbbbbbbbbbbbbbbbb......","................................"],"pal":{"b":"#1f5aa6","y":"#ffc61a","w":"#ffffff"}},"ibm":{"rows":["................................","................................","................................","................................","................................","................................","................................","................................",".bbbbb..bbbbbbbb...bbbb....bbbb.","................................","..bbb....bbb..bbb...bbbbbbbbbb..","................................","..bbb....bbb..bbb...bbb.bb.bbb..","................................","..bbb....bbbbbb.....bbb....bbb..","................................","..bbb....bbb..bbb...bbb....bbb..","................................","..bbb....bbb..bbb...bbb....bbb..","................................","..bbb....bbb.bbbb...bbb....bbb..","................................",".bbbbb..bbbbbbbb...bbbbb..bbbbb.","................................","................................","................................","................................","................................","................................","................................","................................","................................"],"pal":{"b":"#0f62fe"}},"stripe":{"rows":["................................","................................","......pppppppppppppppppppp......","....pppppppppppppppppppppppp....","...pppppppppppppppppppppppppp...","...pppppppppppppppppppppppppp...","..ppppppppppwwwwwwwppppppppppp..","..ppppppppwwwwwwwwwwwppppppppp..","..pppppppwwwwwwwwwwwwwpppppppp..","..ppppppwwwwwwppwwwwwwwppppppp..","..ppppppwwwwwppppwwwwwwppppppp..","..ppppppwwwwwpppppwwwwwppppppp..","..ppppppwwwwwwwwpppppppppppppp..","..ppppppwwwwwwwwwwwwpppppppppp..","..pppppppwwwwwwwwwwwwwpppppppp..","..ppppppppwwwwwwwwwwwwwppppppp..","..ppppppppppwwwwwwwwwwwppppppp..","..ppppppppppppppwwwwwwwwpppppp..","..ppppppwwwwppppppwwwwwwpppppp..","..pppppwwwwwwpppppwwwwwwpppppp..","..pppppwwwwwwpppppwwwwwwpppppp..","..ppppppwwwwwwwwwwwwwwwppppppp..","..ppppppwwwwwwwwwwwwwwwppppppp..","..pppppppwwwwwwwwwwwwppppppppp..","..pppppppppwwwwwwwwppppppppppp..","..pppppppppppppppppppppppppppp..","...pppppppppppppppppppppppppp...","...pppppppppppppppppppppppppp...","....pppppppppppppppppppppppp....","......pppppppppppppppppppp......","................................","................................"],"pal":{"p":"#635bff","w":"#ffffff"}},"google":{"rows":["................................","................................","...........rrrrrrrrrr...........",".........rrrrrrrrrrrrrr.........",".......rrrrrrrrrrrrrrrrrr.......","......rrrrrrrrrrrrrrrrrrrr......",".....rrrrrrrrrrrrrrrrrrrrrr.....","....yyrrrrrrr......rrrrrr.......","....yyyrrrr..........rrr........","...yyyyyrr............r.........","...yyyyyy.......................","..yyyyyy........................","..yyyyyy........................","..yyyyy.........................","..yyyyy.........bbbbbbbbbbbbbb..","..yyyyy.........bbbbbbbbbbbbbb..","..yyyyy.........bbbbbbbbbbbbbbb.","..yyyyy.........bbbbbbbbbbbbbbb.","..yyyyy.........bbbbbbbbbbbbbb..","..yyyyyy................bbbbbb..","..yyyyyy................bbbbbb..","...yyyyyy..............bbbbbb...","...yyyyygg............bbbbbbb...","....yyygggg..........ggbbbbb....","....yyggggggg......gggggbbbb....",".....ggggggggggggggggggggbb.....","......gggggggggggggggggggg......",".......gggggggggggggggggg.......",".........gggggggggggggg.........","...........gggggggggg...........","..............gggg..............","................................"],"pal":{"r":"#ea4335","y":"#fbbc05","g":"#34a853","b":"#4285f4"}},"puzzles":{"rows":["................................","................................",".............qq.................","...........qqqqqq...............","..........qqqqqqqq..............","..........qqqqqqqq..............","..........qqqqqqqq..............","..........qqqqqqqq..............","..........qqqqqqqq..............","....qqqqqqqqqqqqqqqqqqqq........","....qqQQQQQqqqqqqqqqqqqq........","....qqQQqqqqqqqqqqqqqqqq........","....qqQQqqqqqqqqqqqqqqqq........","....qqQQqqqqqqqqqqqqqqqq........","....qqQQqqqqqqqqqqqqqqqq........",".....qqqqqqqqqqqqqqqqqqq.qqqq...",".......qqqqqqqqqqqqqqqqqqqqqqq..","........qqqqqqqqqqqqqqqqqqqqqqq.","........qqqqqqqqqqqqqqqqqqqqqqq.","........qqqqqqqqqqqqqqqqqqqqqqq.","........qqqqqqqqqqqqqqqqqqqqqqq.",".......qqqqqqqqqqqqqqqqqqqqqqq..","......qqqqqqqqqqqqqqqqqq.qqqq...","....qqqqqqqqqqqqqqqqqqqq........","....qqqqqqqqqqqqqqqqqqqq........","....qqqqqqqqqqqqqqqqqqqq........","....qqqqqqq......qqqqqqq........","....qqqqqqq......qqqqqqq........","....qqqqqq........qqqqqq........","................................","................................","................................"],"pal":{"q":"#8a63d8","Q":"#c8b4f4"}}};
 
             var CAPTIONS = {
                 home:    { fig: 'home',        text: 'hover over the colourful words',                 c: '#2f9e74' },
@@ -640,16 +605,100 @@
             var still = matchMedia('(prefers-reduced-motion: reduce)').matches;
             var cells = [];
 
+            // Each pixel's state; everything is animated by time, not by the DOM.
+            //   col / a0 -> a1 from fadeAt : the lit colour fading in or out
+            //   sqAt / sq                  : a quick squash when it changes
             for (var r = 0; r < N; r++) {
                 for (var c = 0; c < N; c++) {
-                    var el = document.createElement('div');
-                    el.className = 'px';
-                    el.style.setProperty('--in', (r * 11 + c * 6) + 'ms');
-                    el.style.setProperty('--d', (-(r + c) * 0.09) + 's');
-                    grid.appendChild(el);
-                    cells.push({ el: el, r: r, c: c, color: null, anim: null });
+                    cells.push({ r: r, c: c, color: null, col: null, a0: 0, a1: 0, fadeAt: 0, sqAt: -1e9, sq: 1 });
                 }
             }
+
+            // ---- Canvas renderer ----
+            var FADE = 200, SQUASH_MS = 340, INTRO_MS = 500;
+            var BREATHE_S = 4.2, BREATHE_DEPTH = 0.55;
+            var canvas = document.createElement('canvas');
+            grid.appendChild(canvas);
+            var ctx = canvas.getContext('2d');
+            var OFF = getComputedStyle(document.documentElement).getPropertyValue('--px-off').trim() || '#e9e3d8';
+            var size = 0, dpr = 1, born = performance.now(), visible = true, raf = 0;
+
+            function resize() {
+                dpr = Math.min(window.devicePixelRatio || 1, 2);
+                size = grid.clientWidth;
+                canvas.width = Math.round(size * dpr);
+                canvas.height = Math.round(size * dpr);
+                if (still) render(performance.now());
+            }
+
+            function easeOutBack(x) { var k = 1.70158; return 1 + (k + 1) * Math.pow(x - 1, 3) + k * Math.pow(x - 1, 2); }
+            function easeInOut(x) { return x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; }
+
+            function litAlpha(cell, now) {
+                var t = (now - cell.fadeAt) / FADE;
+                if (t <= 0) return cell.a0;
+                if (t >= 1) return cell.a1;
+                return cell.a0 + (cell.a1 - cell.a0) * easeInOut(t);
+            }
+
+            function scaleOf(cell, now) {
+                var s = 1;
+                if (!still) {
+                    var intro = (now - born - (cell.r * 11 + cell.c * 6)) / INTRO_MS;   // the initial pop-in
+                    s = intro <= 0 ? 0 : intro >= 1 ? 1 : easeOutBack(intro);
+                    var q = (now - cell.sqAt) / SQUASH_MS;                              // squash when repainted
+                    if (q > 0 && q < 1) {
+                        s *= q < 0.4 ? 1 - (1 - cell.sq) * easeInOut(q / 0.4)
+                                     : cell.sq + (1 - cell.sq) * easeOutBack((q - 0.4) / 0.6);
+                    }
+                }
+                return s;
+            }
+
+            function render(now) {
+                if (!size) return;
+                // Same geometry as the old CSS grid: 32 tiles with a 2–3px gap between them.
+                var gap = Math.min(3, Math.max(2, window.innerWidth * 0.0022)) * dpr;
+                var tile = (canvas.width - gap * (N - 1)) / N;
+                var step = tile + gap;
+                var t = (now - born) / 1000;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (var i = 0; i < cells.length; i++) {
+                    var cell = cells[i];
+                    var s = scaleOf(cell, now);
+                    if (s <= 0.01) continue;
+                    var w = tile * s, x = cell.c * step + (tile - w) / 2, y = cell.r * step + (tile - w) / 2;
+                    var rad = w * 0.3;
+                    // empty tile, breathing in a slow diagonal wave
+                    var phase = still ? 0 : ((t + (cell.r + cell.c) * 0.09) / BREATHE_S) % 1;
+                    ctx.globalAlpha = 1 - BREATHE_DEPTH * (0.5 - 0.5 * Math.cos(phase * 2 * Math.PI));
+                    ctx.fillStyle = OFF;
+                    ctx.beginPath();
+                    ctx.roundRect ? ctx.roundRect(x, y, w, w, rad) : ctx.rect(x, y, w, w);
+                    ctx.fill();
+                    // lit colour on top
+                    var a = litAlpha(cell, now);
+                    if (a > 0.005 && cell.col) {
+                        ctx.globalAlpha = a;
+                        ctx.fillStyle = cell.col;
+                        ctx.fill();
+                    }
+                }
+                ctx.globalAlpha = 1;
+            }
+
+            function loop(now) {
+                raf = requestAnimationFrame(loop);
+                if (visible) render(now);
+            }
+
+            if ('ResizeObserver' in window) new ResizeObserver(resize).observe(grid);
+            else addEventListener('resize', resize);
+            resize();
+            if ('IntersectionObserver' in window) {
+                new IntersectionObserver(function (es) { visible = es[0].isIntersecting; }).observe(grid);
+            }
+            if (!still) raf = requestAnimationFrame(loop);
 
             var current = null;
             var typing = null;
@@ -670,17 +719,16 @@
 
             // ---- Painting a pixel ----
             function paint(cell, color, delay, squash) {
+                var now = performance.now();
                 cell.color = color;
-                // Keep the old colour while fading out, so it never shifts hue on its way off.
-                if (color) cell.el.style.setProperty('--on', color);
-                cell.el.style.setProperty('--t', delay + 'ms');
-                cell.el.classList.toggle('lit', !!color);
-                if (still || !squash || !cell.el.animate) return;
-                if (cell.anim) cell.anim.cancel();
-                cell.anim = cell.el.animate(
-                    [{ transform: 'scale(1)' }, { transform: 'scale(' + squash + ')', offset: 0.4 }, { transform: 'scale(1)' }],
-                    { duration: 340, delay: delay, easing: 'cubic-bezier(0.3, 1.4, 0.5, 1)' }
-                );
+                // Start the fade from wherever it currently is. Keep the old colour while
+                // fading out, so it never shifts hue on its way off.
+                cell.a0 = litAlpha(cell, now);
+                cell.a1 = color ? 1 : 0;
+                if (color) cell.col = color;
+                cell.fadeAt = still ? -1e9 : now + delay;
+                if (!still && squash) { cell.sqAt = now + delay; cell.sq = squash; }
+                if (still) render(now);
             }
 
             // ---- Home: a scrambled cube, drawn in 3D from a fixed three-quarter view ----
@@ -827,7 +875,6 @@
 
             // Intro: pixels pop in, then the home drawing ripples on.
             setTimeout(function () {
-                grid.classList.add('ready');
                 if (!current) draw('home');
             }, still ? 0 : 600);
         })();
